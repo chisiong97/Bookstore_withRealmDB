@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">SS Bookstore</string>
+    <string name="edit_username">ID</string>
+    <string name="edit_password">Password</string>
+    <string name="button_login">login</string>
+
+    <string-array name="book_list">
+        <item> Programming in Java </item>
+        <item> ABC for babies </item>
+        <item> Textbook </item>
+        <item> Programming in C </item>
+    </string-array>
+
+    <string-array name="description">
+        <item> This is a random description </item>
+        <item> This is a random description </item>
+        <item> This is a random description </item>
+        <item> This is a random description </item>
+    </string-array>
+</resources>
