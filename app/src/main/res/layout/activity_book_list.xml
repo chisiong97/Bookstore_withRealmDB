@@ -8,7 +8,7 @@
     tools:context=".BookList"
     tools:layout_editor_absoluteY="81dp">
     <include
-        layout="@layout/custom_action_bar_layout"/>
+        layout="@layout/booklist_action_bar_layout"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

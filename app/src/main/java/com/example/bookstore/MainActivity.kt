@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, BookList::class.java)
         loginBtn.setOnClickListener{
             startActivity(intent)
+            finish()
             /*if(username.text.toString().equals("SS") && password.text.toString().equals("11111")) {
                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
                 startActivity(intent)

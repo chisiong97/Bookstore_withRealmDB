@@ -5,6 +5,12 @@
     <string name="button_login">login</string>
     <string name="add_btn">Add Book</string>
     <string name="button_logout">Logout</string>
+    <string name="book_title">Book Title :</string>
+    <string name="author">Author :</string>
+    <string name="book_description">Description :</string>
+    <string name="add_book_title">Create new</string>
+    <string name="back_btn">Back</string>
+    <string name="done_btn">Done</string>
 
     <string-array name="book_list">
         <item> Programming in Java </item>

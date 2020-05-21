@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_book_list.*
-import kotlinx.android.synthetic.main.custom_action_bar_layout.*
+import kotlinx.android.synthetic.main.booklist_action_bar_layout.*
 import androidx.recyclerview.widget.ItemTouchHelper
 
 
@@ -19,7 +19,7 @@ class BookList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_list)
-        //setSupportActionBar(findViewById(R.id.custom_action_bar_layout))
+        //setSupportActionBar(findViewById(R.id.booklist_action_bar_layout))
 
         //TODO: To use DB to populate
         //Note: user upload images..not url
@@ -54,6 +54,7 @@ class BookList : AppCompatActivity() {
 
         logoutBtn.setOnClickListener(){
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
 
     }
