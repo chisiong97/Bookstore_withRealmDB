@@ -28,6 +28,16 @@ class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<
             .into(holder.book_cover)
     }
 
+    fun addItem(item:Book) {
+        books.add(item)
+        notifyItemInserted(books.size)
+    }
+
+    fun removeAt(position: Int) {
+        books.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
             var book_title:TextView = itemView.book_title
             var author:TextView = itemView.author

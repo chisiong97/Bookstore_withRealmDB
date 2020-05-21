@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.bookstore"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -41,4 +41,5 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.firebase:firebase-firestore-ktx:21.4.3'
     implementation 'com.android.support:multidex:1.0.3'
+
 }

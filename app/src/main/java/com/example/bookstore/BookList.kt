@@ -1,17 +1,25 @@
 package com.example.bookstore
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_book_list.*
+import kotlinx.android.synthetic.main.custom_action_bar_layout.*
+import androidx.recyclerview.widget.ItemTouchHelper
 
 
 class BookList : AppCompatActivity() {
+    override fun onBackPressed() {
+        //super.onBackPressed()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_list)
+        //setSupportActionBar(findViewById(R.id.custom_action_bar_layout))
 
         //TODO: To use DB to populate
         //Note: user upload images..not url
@@ -22,19 +30,32 @@ class BookList : AppCompatActivity() {
             (Book(book_title = "ABC", author = "CS", book_url = "https://images-na.ssl-images-amazon.com/images/I/81H4+Wn-iLL.jpg"))
         )
 
-        /*
-        for (i in 0 until 50){
-            books.add(Book(book_title = "ABC", author = "CS", book_url = "https://images-na.ssl-images-amazon.com/images/I/81H4+Wn-iLL.jpg"))
-        }
-        */
-
-        recyclerView.addItemDecoration(DividerItemDecoration(this@BookList, LinearLayoutManager.VERTICAL))
-
-
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@BookList)
             adapter = BooksAdapter(books)
-
+            addItemDecoration(DividerItemDecoration(this@BookList, LinearLayoutManager.VERTICAL))
         }
+
+        val swipeHandler = object : SwipeToDeleteCallback(this) {
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = recyclerView.adapter as BooksAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
+
+        addBtn.setOnClickListener(){
+            startActivity(Intent(this, AddBook::class.java))
+        }
+
+        logoutBtn.setOnClickListener(){
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
     }
+
 }
