@@ -1,19 +1,13 @@
 package com.example.bookstore
 
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.booklist_action_bar_layout.*
 
@@ -44,7 +38,15 @@ class BookList : AppCompatActivity() {
                         "49982f6e-a96e-3b94-95bf-bcbb05dd5c5e/AppIcon-0-85-220-4-2x.png/1200x630bb.png"))
         )
 
+        var newBook = intent.getParcelableExtra("EXTRA_NEW_BOOK") as? Book
+        //TODO: Update array if newbook exists
+
+        if(newBook!=null){
+            bookArray.add(newBook)
+        }
+
         val LOAD = "Test"
+        Log.d(LOAD, newBook.toString())
         Log.d(LOAD, bookArray.toString())
 
         recyclerView.apply {

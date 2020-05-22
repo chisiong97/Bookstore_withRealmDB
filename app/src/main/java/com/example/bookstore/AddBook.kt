@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_add_book.*
 import kotlinx.android.synthetic.main.addbook_action_bar_layout.*
 
@@ -14,7 +13,7 @@ class AddBook : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
 
-        var bookArray : ArrayList<Book>? = intent.getParcelableArrayListExtra("EXTRA_bookArray")
+        //var bookArray : ArrayList<Book>? = intent.getParcelableArrayListExtra("EXTRA_bookArray")
 
         doneBtn.setOnClickListener(){
             var bookTitle = book_title.text.toString()
@@ -27,7 +26,7 @@ class AddBook : AppCompatActivity() {
                     author = bookAuthor,
                     book_title = bookTitle,
                     book_desc = bookDesc,
-                    book_cover = "")
+                    book_cover = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Empty_set.svg/400px-Empty_set.svg.png")
 
             val intent = Intent(this, BookList::class.java)
             intent.putExtra("EXTRA_NEW_BOOK", newBook)

@@ -27,9 +27,11 @@ class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<
         holder.book_title.text = books[position].book_title
         holder.author.text = books[position].author
 
+
         Picasso.get().load(books[position].book_cover)
-            .fit()
-            .into(holder.book_cover)
+                .fit()
+                .into(holder.book_cover)
+
 
     }
 
