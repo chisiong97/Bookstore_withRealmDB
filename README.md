@@ -1,8 +1,7 @@
 # Bookstore
 ## *Mobile Development tutorial*
 
-Status:
-
+## Status:
 ## **Login** <br/>
 -Done. <br/>
 -Credentials disabled for the time being. Uncomment to activate. <br/>
