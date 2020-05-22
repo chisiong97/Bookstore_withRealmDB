@@ -15,7 +15,7 @@
 passing newBook object to Book listing activity <br/>
 UI <br/>
 *-To do:* <br/>
-1.Image upload & saving (Create book choose picture) <br/>
+1.Image upload & saving (Create book choose picture) [==Current progress==] <br/> 
 
 ## **Book details** <br/>
 -UI done <br/>
@@ -26,3 +26,7 @@ UI <br/>
 ## **Edit book** <br/>
 *-To do:* <br/>
 1.Customize action bar to change to "DONE" after "EDIT" button is clicked. <br/>
+
+## **Project manifest** <br/>
+To do: <br/>
+1. Setup RealmDB
