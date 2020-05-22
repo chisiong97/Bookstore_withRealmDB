@@ -1,11 +1,14 @@
 package com.example.bookstore
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.book_item.view.*
@@ -23,9 +26,11 @@ class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.book_title.text = books[position].book_title
         holder.author.text = books[position].author
-        Picasso.get().load(books[position].book_url)
+
+        Picasso.get().load(books[position].book_cover)
             .fit()
             .into(holder.book_cover)
+
     }
 
     fun addItem(item:Book) {
@@ -42,6 +47,14 @@ class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<
             var book_title:TextView = itemView.book_title
             var author:TextView = itemView.author
             var book_cover:ImageView = itemView.book_cover
+
+        init {
+            itemView.setOnClickListener(){
+                println("item clicked")
+                val intent = Intent(itemView.context, BookDetails::class.java)
+                itemView.context.startActivity(intent)
+            }
+        }
     }
 
 }

@@ -1,9 +1,13 @@
 package com.example.bookstore
 
 import android.net.Uri
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Book (
-    var book_title: String,
     var author: String,
-    var book_url : String
-)
+    var book_cover : String,
+    var book_desc : String,
+    var book_title: String
+):Parcelable

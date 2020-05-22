@@ -4,10 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.ArrayList
 import kotlin.system.exitProcess
+import kotlin.collections.arrayListOf
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,10 +32,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //supportActionBar()
 
-        val intent = Intent(this, BookList::class.java)
+
+
         loginBtn.setOnClickListener{
+
+
+            val intent = Intent(this, BookList::class.java)
             startActivity(intent)
             finish()
             /*if(username.text.toString().equals("SS") && password.text.toString().equals("11111")) {

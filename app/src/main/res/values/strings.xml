@@ -11,6 +11,9 @@
     <string name="add_book_title">Create new</string>
     <string name="back_btn">Back</string>
     <string name="done_btn">Done</string>
+    <string name="edit_btn">Edit</string>
+    <string name="disp_book_title">Book title</string>
+
 
     <string-array name="book_list">
         <item> Programming in Java </item>
