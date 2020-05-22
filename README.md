@@ -1,25 +1,29 @@
 # Bookstore
-Mobile Development tutorial
+*Mobile Development tutorial*
 
 Status:
 
-Login
--Done. UI ugly require touchup.
--Credentials disabled for the time being. Uncomment to activate.
+*Login* <br/>
+-Done. <br/>
+-Credentials disabled for the time being. Uncomment to activate. <br/>
 
-Book listing
--UI Done.
--TO do: Updating array with newBook object from Create book activity
+*Book listing* <br/>
+-UI Done. <br/>
+-Update recyclerview done. <br/>
 
-Create book
--Done: passing newBook object
--To do: Image upload (Create book choose picture)
-
-Book details
+*Create book* <br/>
+-Done:<br/>
+passing newBook object to Book listing activity <br/>
+UI <br/>
 -To do: 
-1.Fetch details from booksarray
-2.Custom action bar to activate edit book
+1.Image upload & saving (Create book choose picture) <br/>
 
-Edit book
--To do:
-1.Customize action bar to change to "DONE" after "EDIT" button is clicked.
+*Book details* <br/>
+-UI done
+-To do: <br/>
+1.Fetch details from booksarray <br/>
+2.Custom action bar to activate edit book <br/>
+
+*Edit book* <br/>
+-To do: <br/>
+1.Customize action bar to change to "DONE" after "EDIT" button is clicked. <br/>
