@@ -55,6 +55,7 @@ class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<
                 println("item clicked")
                 val intent = Intent(itemView.context, BookDetails::class.java)
                 itemView.context.startActivity(intent)
+                //To pass array
             }
         }
     }
