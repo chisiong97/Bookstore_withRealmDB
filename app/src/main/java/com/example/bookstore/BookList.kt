@@ -2,6 +2,7 @@ package com.example.bookstore
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,6 +15,10 @@ import kotlinx.android.synthetic.main.booklist_action_bar_layout.*
 
 class BookList : AppCompatActivity() {
 
+    //1 = init ori array , 2 = load latest updated array, 3 = load last updated array(no new book added)
+    var arrStatus = 1
+    var bookArray = arrayListOf<Book>()
+
     //Disable back
     override fun onBackPressed() {
         //super.onBackPressed()
@@ -23,21 +28,35 @@ class BookList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_list)
 
-        //Init array
-        var bookArray = arrayListOf<Book> (
-            (Book(
-                author = "CS",
-                book_title = "Programming",
-                book_desc = "This is a random description.",
-                book_cover = "https://images-na.ssl-images-amazon.com/images/I/514axA2lwpL.jpg")),
-            (Book(
-                author = "CS",
-                book_title = "Dictionary",
-                book_desc = "This is a dictionary description.",
-                book_cover = "https://is1-ssl.mzstatic.com/image/thumb/Purple123/v4/49/98/2f/" +
-                        "49982f6e-a96e-3b94-95bf-bcbb05dd5c5e/AppIcon-0-85-220-4-2x.png/1200x630bb.png"))
-        )
+        arrStatus = intent.getIntExtra("EXTRA_UpdatedStatus", 1)
 
+        if (arrStatus==1){
+            //Init array
+            bookArray.add(
+                (Book(
+                    author = "CS",
+                    book_title = "Programming",
+                    book_desc = "This is a random description.",
+                    book_cover = "https://images-na.ssl-images-amazon.com/images/I/514axA2lwpL.jpg")
+                        )
+            )
+
+            bookArray.add(
+                (Book(
+                    author = "CS",
+                    book_title = "Dictionary",
+                    book_desc = "This is a dictionary description.",
+                    book_cover = "https://is1-ssl.mzstatic.com/image/thumb/Purple123/v4/49/98/2f/" +
+                            "49982f6e-a96e-3b94-95bf-bcbb05dd5c5e/AppIcon-0-85-220-4-2x.png/1200x630bb.png")
+                        )
+            )
+
+        }else {
+            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+            bookArray = intent.getParcelableArrayListExtra("EXTRA_UpdatedBookArray")
+        }
+
+/*
         var newBook = intent.getParcelableExtra("EXTRA_NEW_BOOK") as? Book
         //TODO: Update array if newbook exists
 
@@ -45,8 +64,10 @@ class BookList : AppCompatActivity() {
             bookArray.add(newBook)
         }
 
+ */
+
         val LOAD = "Test"
-        Log.d(LOAD, newBook.toString())
+        //Log.d(LOAD, newBook.toString())
         Log.d(LOAD, bookArray.toString())
 
         recyclerView.apply {
@@ -69,11 +90,10 @@ class BookList : AppCompatActivity() {
         //Action bar buttons onclicklistener
         addBtn.setOnClickListener(){
             val intent = Intent(this, AddBook::class.java)
-            /*
+            intent.putExtra("EXTRA_arrStatus", arrStatus)
             intent.putParcelableArrayListExtra("EXTRA_bookArray", bookArray)
             Log.d(LOAD, bookArray.toString())
 
-             */
             startActivity(intent)
             finish()
         }

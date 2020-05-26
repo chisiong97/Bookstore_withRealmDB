@@ -13,7 +13,9 @@ class AddBook : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
 
-        //var bookArray : ArrayList<Book>? = intent.getParcelableArrayListExtra("EXTRA_bookArray")
+        var bookArray = intent.getParcelableArrayListExtra<Book>("EXTRA_bookArray")
+        var arrStatusNew : Int
+        arrStatusNew = intent.getIntExtra("EXTRA_arrStatus",1)
 
         doneBtn.setOnClickListener(){
             var bookTitle = book_title.text.toString()
@@ -28,15 +30,22 @@ class AddBook : AppCompatActivity() {
                     book_desc = bookDesc,
                     book_cover = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Empty_set.svg/400px-Empty_set.svg.png")
 
+            bookArray.add(newBook)
+
             val intent = Intent(this, BookList::class.java)
-            intent.putExtra("EXTRA_NEW_BOOK", newBook)
+            arrStatusNew = 2
+            intent.putExtra("EXTRA_UpdatedStatus", arrStatusNew)
+            intent.putParcelableArrayListExtra("EXTRA_UpdatedBookArray", bookArray)
             startActivity(intent)
             finish()
         }
 
         backBtn.setOnClickListener(){
-            startActivity(Intent(this, BookList::class.java))
-            //TODO: Alert confirm quit? unsaved data will lost
+            val intent = Intent(this, BookList::class.java)
+            arrStatusNew = 3
+            intent.putExtra("EXTRA_UpdatedStatus", arrStatusNew)
+            intent.putParcelableArrayListExtra("EXTRA_UpdatedBookArray", bookArray)
+            startActivity(intent)
             finish()
         }
     }
