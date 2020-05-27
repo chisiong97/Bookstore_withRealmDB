@@ -30,6 +30,7 @@ class BookList : AppCompatActivity() {
 
         arrStatus = intent.getIntExtra("EXTRA_UpdatedStatus", 1)
 
+        //TODO: Change book_cover attributes to URI
         if (arrStatus==1){
             //Init array
             bookArray.add(
@@ -56,15 +57,6 @@ class BookList : AppCompatActivity() {
             bookArray = intent.getParcelableArrayListExtra("EXTRA_UpdatedBookArray")
         }
 
-/*
-        var newBook = intent.getParcelableExtra("EXTRA_NEW_BOOK") as? Book
-        //TODO: Update array if newbook exists
-
-        if(newBook!=null){
-            bookArray.add(newBook)
-        }
-
- */
 
         val LOAD = "Test"
         //Log.d(LOAD, newBook.toString())
