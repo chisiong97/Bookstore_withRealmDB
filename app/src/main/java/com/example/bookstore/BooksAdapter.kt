@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.book_item.view.*
 import org.w3c.dom.Text
 
-class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<BooksAdapter.ViewHolder>() {
+class BooksAdapter(private val books: MutableList<Book>, var arrStatus:Int) : RecyclerView.Adapter<BooksAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.book_item, parent,false)
@@ -45,7 +45,7 @@ class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<
         notifyItemRemoved(position)
     }
 
-    class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
             var book_title:TextView = itemView.book_title
             var author:TextView = itemView.author
             var book_cover:ImageView = itemView.book_cover
@@ -54,6 +54,8 @@ class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<
             itemView.setOnClickListener(){
                 println("item clicked")
                 val intent = Intent(itemView.context, BookDetails::class.java)
+                intent.putExtra("EXTRA_arrStatus", arrStatus)
+                intent.putParcelableArrayListExtra("EXTRA_bookArray", ArrayList(books))
                 itemView.context.startActivity(intent)
                 //To pass array
             }
@@ -61,3 +63,4 @@ class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<
     }
 
 }
+

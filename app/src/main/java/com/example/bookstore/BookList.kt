@@ -72,7 +72,7 @@ class BookList : AppCompatActivity() {
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@BookList)
-            adapter = BooksAdapter(bookArray)
+            adapter = BooksAdapter(bookArray,arrStatus)
             addItemDecoration(DividerItemDecoration(this@BookList, LinearLayoutManager.VERTICAL))
         }
 

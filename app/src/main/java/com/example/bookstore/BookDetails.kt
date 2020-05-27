@@ -11,18 +11,19 @@ class BookDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_details)
 
+        var bookArray = intent.getParcelableArrayListExtra<Book>("EXTRA_bookArray")
+        var arrStatusNew : Int
+        arrStatusNew = intent.getIntExtra("EXTRA_arrStatus",3)
+
         //TODO: Appbar title changes according to book title
 
         //TODO: Edit button change to Done button once activated
 
         backBtn.setOnClickListener(){
             val intent = Intent(this, BookList::class.java)
-            /*
             arrStatusNew = 3
             intent.putExtra("EXTRA_UpdatedStatus", arrStatusNew)
             intent.putParcelableArrayListExtra("EXTRA_UpdatedBookArray", bookArray)
-
-             */
             startActivity(intent)
             finish()
         }
