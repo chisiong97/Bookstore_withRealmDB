@@ -28,6 +28,7 @@ UI <br/>
 *-To do:* <br/>
 1.Fetch image from storage/Update image <br/>
 
-## **Project manifest** <br/>
+## **Project / Manifest** <br/>
 To do: <br/>
 1. Setup RealmDB
+2. Ensure storage remain after app quit.
