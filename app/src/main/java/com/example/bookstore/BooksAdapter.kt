@@ -52,12 +52,12 @@ class BooksAdapter(private val books: MutableList<Book>, var arrStatus:Int) : Re
 
         init {
             itemView.setOnClickListener(){
-                println("item clicked")
+                println("item clicked$adapterPosition")
                 val intent = Intent(itemView.context, BookDetails::class.java)
+                intent.putExtra("EXTRA_adapterPosition", adapterPosition)
                 intent.putExtra("EXTRA_arrStatus", arrStatus)
                 intent.putParcelableArrayListExtra("EXTRA_bookArray", ArrayList(books))
                 itemView.context.startActivity(intent)
-                //To pass array
             }
         }
     }
