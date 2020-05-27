@@ -1,13 +1,16 @@
 package com.example.bookstore
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -15,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import kotlinx.android.synthetic.main.activity_add_book.*
 import kotlinx.android.synthetic.main.activity_add_book.author
 import kotlinx.android.synthetic.main.activity_add_book.book_title
@@ -22,7 +26,11 @@ import kotlinx.android.synthetic.main.activity_add_book.description
 import kotlinx.android.synthetic.main.activity_add_book.imageView
 import kotlinx.android.synthetic.main.activity_book_details.*
 import kotlinx.android.synthetic.main.addbook_action_bar_layout.*
+import java.io.File
+import java.io.IOException
 import java.security.AccessController.getContext
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddBook : AppCompatActivity() {
 
@@ -35,14 +43,16 @@ class AddBook : AppCompatActivity() {
         var arrStatusNew : Int
         arrStatusNew = intent.getIntExtra("EXTRA_arrStatus",1)
 
-
+        //TODO: Check if textfield is empty after done is clicked
         doneBtn.setOnClickListener(){
-            var bookTitle = book_title.text.toString()
-            var bookAuthor = author.text.toString()
-            var bookDesc = description.text.toString()
+            val bookTitle = book_title.text.toString()
+            val bookAuthor = author.text.toString()
+            val bookDesc = description.text.toString()
 
             //TODO: Get image loaded by user
             //TODO: Load image from local, Save image from local,camera
+
+            //Check if book cover exists, if not replace with default "empty_set" png
 
             var newBook = Book(
                     author = bookAuthor,
@@ -60,22 +70,22 @@ class AddBook : AppCompatActivity() {
             finish()
         }
 
-
+        //Check camera permission
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA
             ) -> {
-                // You can use the API that requires the permission.
+                // proceed
             }
             else -> {
-                //makeRequest()
+                //make request
                 requestPermissions(arrayOf(Manifest.permission.CAMERA),REQUEST_IMAGE_CAPTURE )
             }
         }
 
 
-        //Show image options
+        //Show image menu options
         imageView.setOnClickListener(){
             println("imgBtn clicked!")
             val popupMenu: PopupMenu = PopupMenu(this, imageView)
@@ -108,8 +118,9 @@ class AddBook : AppCompatActivity() {
             finish()
         }
     }
-    val TAG = "Test camera"
 
+    //Test camera permission
+    val TAG = "Test camera"
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             REQUEST_IMAGE_CAPTURE -> {
@@ -133,52 +144,73 @@ class AddBook : AppCompatActivity() {
     companion object {
         //image pick code
         private val IMAGE_PICK_CODE = 1000
-        //Permission code
-        private val PERMISSION_CODE = 1001
         //camera code
         private val REQUEST_IMAGE_CAPTURE = 1
     }
 
-    /*
-    //handle requested permission result
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when(requestCode){
-            PERMISSION_CODE -> {
-                if (grantResults.size >0 && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED){
-                    //permission from popup granted
-                    pickImageFromGallery()
+    //handle result whether is picked image or camera capture
+    @SuppressLint("MissingSuperCall")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        //super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK){
+            println("Result OK")
+            when(requestCode){
+                REQUEST_IMAGE_CAPTURE -> {
+                    println("Image captured")
+                    val imagePath = Uri.parse(currentPhotoPath)
+                    imageView.setImageURI(imagePath)
                 }
-                else{
-                    //permission from popup denied
-                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                IMAGE_PICK_CODE ->  {
+                    println("Load library")
+                    imageView.setImageURI(data!!.data)
                 }
+
             }
         }
     }
 
-     */
+    //create image file
+    lateinit var currentPhotoPath: String
 
-
-    //handle result of picked image
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK){
-            when(requestCode){
-                IMAGE_PICK_CODE ->  imageView.setImageURI(data?.data)
-                REQUEST_IMAGE_CAPTURE -> {
-                    val imageBitmap = data?.extras?.get("data") as Bitmap
-                    imageView.setImageBitmap(imageBitmap)
-                }
-            }
+    private fun createImageFile():File {
+        println("Image file created")
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+            println("Photo path: "+absolutePath)
         }
     }
 
     //function to take picture from camera
     private fun dispatchTakePictureIntent() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    // Error occurred while creating the File
+                    println("Error while creating file!")
+
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        this,
+                        "com.example.android.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
             }
         }
     }
