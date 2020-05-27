@@ -3,6 +3,7 @@ package com.example.bookstore
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.EditText
 import android.widget.TextView
 import kotlinx.android.synthetic.main.bookdetails_action_bar_layout.*
 
@@ -20,11 +21,17 @@ class BookDetails : AppCompatActivity() {
 
         //Appbar title changes according to book title
         val currentBook = bookArray[adapterPos]
-        val tv1 : TextView = findViewById(R.id.book_title)
+        val tv1 : TextView = findViewById(R.id.book_title_appbar)
         tv1.text = currentBook.book_title
 
-        //TODO: Fetch book details into each respective field
+        //Fetch book details into each respective field
+        var title : EditText = findViewById(R.id.book_title)
+        var author : EditText = findViewById(R.id.author)
+        var desc : EditText = findViewById(R.id.description)
 
+        title.setText(currentBook.book_title)
+        author.setText(currentBook.author)
+        desc.setText(currentBook.book_desc)
 
         //TODO: Edit button change to Done button once activated
 
@@ -35,6 +42,15 @@ class BookDetails : AppCompatActivity() {
             intent.putParcelableArrayListExtra("EXTRA_UpdatedBookArray", bookArray)
             startActivity(intent)
             finish()
+        }
+
+        editBtn.setOnClickListener {
+            if (editBtn.text == "Done"){
+                //TODO: Enable edit text and update book arraylist
+            }else{
+                editBtn.text = "Done"
+            }
+
         }
     }
 }
