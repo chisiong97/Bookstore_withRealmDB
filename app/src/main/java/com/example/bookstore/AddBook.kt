@@ -4,6 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
 import kotlinx.android.synthetic.main.activity_add_book.*
 import kotlinx.android.synthetic.main.addbook_action_bar_layout.*
 
@@ -16,6 +19,7 @@ class AddBook : AppCompatActivity() {
         var bookArray = intent.getParcelableArrayListExtra<Book>("EXTRA_bookArray")
         var arrStatusNew : Int
         arrStatusNew = intent.getIntExtra("EXTRA_arrStatus",1)
+
 
         doneBtn.setOnClickListener(){
             var bookTitle = book_title.text.toString()
@@ -40,6 +44,25 @@ class AddBook : AppCompatActivity() {
             finish()
         }
 
+        //Show image options
+        imageView.setOnClickListener(){
+            println("imgBtn clicked!")
+            val popupMenu: PopupMenu = PopupMenu(this, imageView)
+            popupMenu.menuInflater.inflate(R.menu.imagenav,popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                when(item.itemId) {
+                    R.id.navigation_library->
+                        Toast.makeText(this, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                    R.id.navigation_camera ->
+                        Toast.makeText(this, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                    R.id.navigation_cancel ->
+                        Toast.makeText(this, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                }
+                true
+            })
+            popupMenu.show()
+        }
+
         backBtn.setOnClickListener(){
             val intent = Intent(this, BookList::class.java)
             arrStatusNew = 3
@@ -49,4 +72,5 @@ class AddBook : AppCompatActivity() {
             finish()
         }
     }
+
 }

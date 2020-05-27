@@ -7,7 +7,8 @@
     tools:context=".AddBook">
 
     <include
-        layout="@layout/addbook_action_bar_layout"/>
+        android:id="@+id/include"
+        layout="@layout/addbook_action_bar_layout" />
 
     <ImageButton
         android:id="@+id/imageView"
@@ -18,7 +19,8 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_simplebook" />
+        app:srcCompat="@drawable/ic_simplebook"
+        android:autofillHints="Click here to edit photo"/>
 
     <EditText
         android:id="@+id/book_title"
@@ -118,6 +120,5 @@
         app:layout_constraintEnd_toStartOf="@id/description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.0"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
