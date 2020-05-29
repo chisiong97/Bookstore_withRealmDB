@@ -7,6 +7,7 @@ import android.text.InputType.TYPE_CLASS_TEXT
 import android.text.InputType.TYPE_NULL
 import android.widget.EditText
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_book_details.*
 import kotlinx.android.synthetic.main.bookdetails_action_bar_layout.*
 
 class BookDetails : AppCompatActivity() {
@@ -34,6 +35,7 @@ class BookDetails : AppCompatActivity() {
         title.setText(currentBook.book_title)
         author.setText(currentBook.author)
         desc.setText(currentBook.book_desc)
+        imageView.setImageURI(currentBook.book_cover)
 
         //Disable text field editable
         title.inputType = TYPE_NULL

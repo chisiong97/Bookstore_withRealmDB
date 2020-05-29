@@ -1,6 +1,7 @@
 package com.example.bookstore
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -38,8 +39,9 @@ class BookList : AppCompatActivity() {
                     author = "CS",
                     book_title = "Programming",
                     book_desc = "This is a random description.",
-                    book_cover = "https://images-na.ssl-images-amazon.com/images/I/514axA2lwpL.jpg")
-                        )
+                    book_cover =  Uri.parse("/storage/emulated/0/Android/data/com.example.bookstore/files/Pictures/java.jpg")
+                    )
+                )
             )
 
             bookArray.add(
@@ -47,9 +49,9 @@ class BookList : AppCompatActivity() {
                     author = "CS",
                     book_title = "Dictionary",
                     book_desc = "This is a dictionary description.",
-                    book_cover = "https://is1-ssl.mzstatic.com/image/thumb/Purple123/v4/49/98/2f/" +
-                            "49982f6e-a96e-3b94-95bf-bcbb05dd5c5e/AppIcon-0-85-220-4-2x.png/1200x630bb.png")
-                        )
+                    book_cover = Uri.parse("/storage/emulated/0/Android/data/com.example.bookstore/files/Pictures/dict.png")
+                    )
+                )
             )
 
         }else {

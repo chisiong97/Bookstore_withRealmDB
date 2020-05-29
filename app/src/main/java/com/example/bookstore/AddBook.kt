@@ -58,7 +58,9 @@ class AddBook : AppCompatActivity() {
                     author = bookAuthor,
                     book_title = bookTitle,
                     book_desc = bookDesc,
-                    book_cover = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Empty_set.svg/400px-Empty_set.svg.png")
+                    book_cover = Uri.parse(currentPhotoPath)
+            )
+            println("Current: " + currentPhotoPath)
 
             bookArray.add(newBook)
 
@@ -84,13 +86,40 @@ class AddBook : AppCompatActivity() {
             }
         }
 
+        //Check read permission
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) -> {
+                // proceed
+            }
+            else -> {
+                //make request
+                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),REQUEST_IMAGE_CAPTURE )
+            }
+        }
+
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) -> {
+                // proceed
+            }
+            else -> {
+                //make request
+                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),REQUEST_IMAGE_CAPTURE )
+            }
+        }
+
 
         //Show image menu options
         imageView.setOnClickListener(){
             println("imgBtn clicked!")
-            val popupMenu: PopupMenu = PopupMenu(this, imageView)
+            val popupMenu = PopupMenu(this, imageView)
             popupMenu.menuInflater.inflate(R.menu.imageoptions,popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+            popupMenu.setOnMenuItemClickListener { item ->
                 //switch case
                 when(item.itemId) {
                     R.id.navigation_library->{
@@ -105,7 +134,7 @@ class AddBook : AppCompatActivity() {
                         Toast.makeText(this, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
                 }
                 true
-            })
+            }
             popupMenu.show()
         }
 
@@ -136,7 +165,7 @@ class AddBook : AppCompatActivity() {
     //function for pick image from gallery
     private fun pickImageFromGallery() {
         //Intent to pick image
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         startActivityForResult(intent, IMAGE_PICK_CODE)
     }
@@ -159,10 +188,13 @@ class AddBook : AppCompatActivity() {
                     println("Image captured")
                     val imagePath = Uri.parse(currentPhotoPath)
                     imageView.setImageURI(imagePath)
+                    println("Image Path: "+ imagePath)
                 }
                 IMAGE_PICK_CODE ->  {
                     println("Load library")
-                    imageView.setImageURI(data!!.data)
+                    currentPhotoPath = (data!!.data).toString()
+                    imageView.setImageURI(data.data)
+                    println(currentPhotoPath)
                 }
 
             }

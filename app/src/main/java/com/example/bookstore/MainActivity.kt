@@ -17,15 +17,15 @@ class MainActivity : AppCompatActivity() {
     private var doubleBackToExitPressed = 1
     override fun onBackPressed() {
         if (doubleBackToExitPressed == 2) {
-            finishAffinity();
-            exitProcess(0);
+            finishAffinity()
+            exitProcess(0)
         }
         else {
-            doubleBackToExitPressed++;
-            Toast.makeText(this,"Please press BACK again to exit", Toast.LENGTH_SHORT).show();
+            doubleBackToExitPressed++
+            Toast.makeText(this,"Please press BACK again to exit", Toast.LENGTH_SHORT).show()
         }
 
-        Handler().postDelayed(Runnable { doubleBackToExitPressed = 1 }, 2000)
+        Handler().postDelayed({ doubleBackToExitPressed = 1 }, 2000)
     }
 
 
@@ -33,21 +33,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
         loginBtn.setOnClickListener{
-
 
             val intent = Intent(this, BookList::class.java)
             startActivity(intent)
             finish()
-            /*if(username.text.toString().equals("SS") && password.text.toString().equals("11111")) {
+            if(username.text.toString().equals("SS") && password.text.toString().equals("11111")) {
                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
             }
             else
                 Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
-            */
+
         }
     }
 }

@@ -26,11 +26,14 @@ class BooksAdapter(private val books: MutableList<Book>, var arrStatus:Int) : Re
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.book_title.text = books[position].book_title
         holder.author.text = books[position].author
-
-
+        holder.book_cover.setImageURI(books[position].book_cover)
+        /*
         Picasso.get().load(books[position].book_cover)
                 .fit()
                 .into(holder.book_cover)
+        println("Test load:" + books[position].book_cover)
+
+         */
 
 
     }
