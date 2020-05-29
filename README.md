@@ -27,8 +27,7 @@ Done: <br/>
 ## **Edit book** <br/>
 Done <br/> 
 -Customize action bar to change to "DONE" after "EDIT" button is clicked. <br/>
-*-To do:* <br/>
-1.Fetch image from storage/Update image [Current progress]<br/>
+-Fetch image from storage/Update image <br/>
 
 ## **Project / Manifest** <br/>
 To do: <br/>
