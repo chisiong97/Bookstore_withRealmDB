@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_add_book.description
 import kotlinx.android.synthetic.main.activity_add_book.imageView
 import kotlinx.android.synthetic.main.activity_book_details.*
 import kotlinx.android.synthetic.main.addbook_action_bar_layout.*
+import kotlinx.android.synthetic.main.book_item.*
 import java.io.File
 import java.io.IOException
 import java.security.AccessController.getContext
@@ -33,6 +34,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AddBook : AppCompatActivity() {
+
+    var newPhoto = false
 
     //Disable back
     override fun onBackPressed() {
@@ -69,19 +72,20 @@ class AddBook : AppCompatActivity() {
             val bookTitle = book_title.text.toString()
             val bookAuthor = author.text.toString()
             val bookDesc = description.text.toString()
+            var bookCover = ""
 
-            //TODO: Get image loaded by user
-            //TODO: Load image from local, Save image from local,camera
+            if (newPhoto){
+                bookCover = currentPhotoPath
+            }
 
-            //Check if book cover exists, if not replace with default "empty_set" png
 
             var newBook = Book(
                     author = bookAuthor,
                     book_title = bookTitle,
                     book_desc = bookDesc,
-                    book_cover = Uri.parse(currentPhotoPath)
+                    book_cover = Uri.parse(bookCover)
             )
-            println("Current: " + currentPhotoPath)
+
 
             bookArray.add(newBook)
 
@@ -175,12 +179,14 @@ class AddBook : AppCompatActivity() {
                     val imagePath = Uri.parse(currentPhotoPath)
                     imageView.setImageURI(imagePath)
                     println("Image Path: "+ imagePath)
+                    newPhoto = true
                 }
                 IMAGE_PICK_CODE ->  {
                     println("Load library")
                     currentPhotoPath = (data!!.data).toString()
                     imageView.setImageURI(data.data)
                     println(currentPhotoPath)
+                    newPhoto = true
                 }
 
             }
