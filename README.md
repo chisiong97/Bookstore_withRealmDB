@@ -1,4 +1,4 @@
-# Bookstore
+# Bookstore (with Realm DB)
 ## *Mobile Development tutorial*
 
 ## Status:
