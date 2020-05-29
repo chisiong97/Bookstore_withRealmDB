@@ -11,6 +11,10 @@ import kotlinx.android.synthetic.main.activity_book_details.*
 import kotlinx.android.synthetic.main.bookdetails_action_bar_layout.*
 
 class BookDetails : AppCompatActivity() {
+    //Disable back
+    override fun onBackPressed() {
+        //super.onBackPressed()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

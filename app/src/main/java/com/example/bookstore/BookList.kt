@@ -34,6 +34,7 @@ class BookList : AppCompatActivity() {
         //TODO: Change book_cover attributes to URI
         if (arrStatus==1){
             //Init array
+            /*
             bookArray.add(
                 (Book(
                     author = "CS",
@@ -53,6 +54,8 @@ class BookList : AppCompatActivity() {
                     )
                 )
             )
+
+             */
 
         }else {
             @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")

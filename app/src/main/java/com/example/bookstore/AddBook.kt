@@ -34,10 +34,31 @@ import java.util.*
 
 class AddBook : AppCompatActivity() {
 
+    //Disable back
+    override fun onBackPressed() {
+        //super.onBackPressed()
+    }
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
+
+        //Check camera permission
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) -> {
+                // proceed
+            }
+            else -> {
+                //make request
+                requestPermissions(arrayOf(Manifest.permission.CAMERA),
+                    AddBook.REQUEST_IMAGE_CAPTURE
+                )
+            }
+        }
 
         var bookArray = intent.getParcelableArrayListExtra<Book>("EXTRA_bookArray")
         var arrStatusNew : Int
@@ -72,46 +93,6 @@ class AddBook : AppCompatActivity() {
             finish()
         }
 
-        //Check camera permission
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) -> {
-                // proceed
-            }
-            else -> {
-                //make request
-                requestPermissions(arrayOf(Manifest.permission.CAMERA),REQUEST_IMAGE_CAPTURE )
-            }
-        }
-
-        //Check read permission
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) -> {
-                // proceed
-            }
-            else -> {
-                //make request
-                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),REQUEST_IMAGE_CAPTURE )
-            }
-        }
-
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) -> {
-                // proceed
-            }
-            else -> {
-                //make request
-                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),REQUEST_IMAGE_CAPTURE )
-            }
-        }
 
 
         //Show image menu options
@@ -146,7 +127,11 @@ class AddBook : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+
     }
+
+
 
     //Test camera permission
     val TAG = "Test camera"
@@ -174,8 +159,9 @@ class AddBook : AppCompatActivity() {
         //image pick code
         private val IMAGE_PICK_CODE = 1000
         //camera code
-        private val REQUEST_IMAGE_CAPTURE = 1
+        val REQUEST_IMAGE_CAPTURE = 1
     }
+
 
     //handle result whether is picked image or camera capture
     @SuppressLint("MissingSuperCall")
