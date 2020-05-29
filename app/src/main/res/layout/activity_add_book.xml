@@ -12,15 +12,16 @@
 
     <ImageButton
         android:id="@+id/imageView"
-        android:layout_width="316dp"
-        android:layout_height="181dp"
+        android:layout_width="191dp"
+        android:layout_height="236dp"
         android:layout_marginTop="72dp"
+        android:autofillHints="Click here to edit photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_simplebook"
-        android:autofillHints="Click here to edit photo"/>
+        android:scaleType="centerInside"/>
 
     <EditText
         android:id="@+id/book_title"

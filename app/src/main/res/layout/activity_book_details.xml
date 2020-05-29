@@ -4,21 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddBook">
+    tools:context=".BookDetails">
 
     <include
-        layout="@layout/bookdetails_action_bar_layout"/>
+        android:id="@+id/include"
+        layout="@layout/bookdetails_action_bar_layout" />
 
     <ImageButton
         android:id="@+id/imageView"
-        android:layout_width="316dp"
-        android:layout_height="181dp"
+        android:layout_width="191dp"
+        android:layout_height="236dp"
         android:layout_marginTop="72dp"
+        android:autofillHints="Click here to edit photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_simplebook" />
+        app:srcCompat="@drawable/ic_simplebook"
+        android:scaleType="centerInside"/>
 
     <EditText
         android:id="@+id/book_title"
@@ -73,18 +76,17 @@
         android:id="@+id/book_title_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/book_title"
-        tools:layout_editor_absoluteX="18dp"
-        tools:layout_editor_absoluteY="326dp"
         android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
         android:layout_marginTop="100dp"
+        android:layout_marginEnd="100dp"
         android:layout_marginBottom="492dp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        android:text="@string/book_title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/book_title"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.078" />
 
     <TextView
         android:id="@+id/author_holder"
@@ -119,6 +121,5 @@
         app:layout_constraintEnd_toStartOf="@id/description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.0"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
