@@ -13,6 +13,8 @@
     <string name="done_btn">Done</string>
     <string name="edit_btn">Edit</string>
     <string name="disp_book_title">Book title</string>
+    <string name="dialog_title">Error</string>
+    <string name="dialog_msg">Book title and author cannot be blank!</string>
 
 
     <string-array name="book_list">

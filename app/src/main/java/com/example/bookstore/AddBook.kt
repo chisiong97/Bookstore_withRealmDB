@@ -15,6 +15,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -68,7 +69,14 @@ class AddBook : AppCompatActivity() {
         arrStatusNew = intent.getIntExtra("EXTRA_arrStatus",1)
 
         //TODO: Check if textfield is empty after done is clicked
+
+
         doneBtn.setOnClickListener(){
+            if (book_title.text.isEmpty()){
+                book_title.error = "Book title cannot be empty!"
+                return@setOnClickListener
+            }
+
             val bookTitle = book_title.text.toString()
             val bookAuthor = author.text.toString()
             val bookDesc = description.text.toString()
