@@ -4,32 +4,32 @@
 ## Status:
 ## **Login** <br/>
 -Done. <br/>
--Credentials disabled for the time being. Uncomment to activate. <br/>
+-Credentials:<br/>
+ID: SS <br/>
+Pass: 11111 <br/>
 
 ## **Book listing** <br/>
--UI Done. <br/>
+Done: <br/>
+-UI<br/>
 -Update recyclerview done. <br/>
 -passing array object to create book activity <br/>
 
 ## **Create book** <br/>
--Done:<br/>
- -Load image from camera, photo library<br/>
-UI <br/>
-*-To do:* <br/>
-1.Image upload & saving (Create book choose picture)[Current task] <br/> 
+Done:<br/>
+-Load image from camera, photo library<br/>
+-UI <br/>
 
 ## **Book details** <br/>
--UI done <br/>
--Fetch details from booksarray done <br/>
-*-To do:* <br/>
-1.Fetch image from storage <br/>
+Done: <br/>
+-UI <br/>
+-Fetch details from booksarray <br/>
 
 ## **Edit book** <br/>
--DONE: Customize action bar to change to "DONE" after "EDIT" button is clicked. <br/>
+Done <br/> 
+-Customize action bar to change to "DONE" after "EDIT" button is clicked. <br/>
 *-To do:* <br/>
-1.Fetch image from storage/Update image <br/>
+1.Fetch image from storage/Update image [Current progress]<br/>
 
 ## **Project / Manifest** <br/>
 To do: <br/>
-1. Setup RealmDB
-2. Ensure storage remain after app quit.
+1. Setup RealmDB <br/>
