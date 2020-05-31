@@ -30,5 +30,5 @@ Done <br/>
 -Fetch image from storage/Update image <br/>
 
 ## **Project / Manifest** <br/>
-To do: <br/>
-1. Setup RealmDB <br/>
+Done: <br/>
+-Setup RealmDB
