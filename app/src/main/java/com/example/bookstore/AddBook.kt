@@ -2,10 +2,8 @@ package com.example.bookstore
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -15,28 +13,30 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import kotlinx.android.synthetic.main.activity_add_book.*
+import io.realm.Realm
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_add_book.author
 import kotlinx.android.synthetic.main.activity_add_book.book_title
 import kotlinx.android.synthetic.main.activity_add_book.description
 import kotlinx.android.synthetic.main.activity_add_book.imageView
-import kotlinx.android.synthetic.main.activity_book_details.*
 import kotlinx.android.synthetic.main.addbook_action_bar_layout.*
-import kotlinx.android.synthetic.main.book_item.*
 import java.io.File
 import java.io.IOException
-import java.security.AccessController.getContext
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 class AddBook : AppCompatActivity() {
 
-    var newPhoto = false
+    private var newPhoto = false
+    private val realm = Realm.getDefaultInstance()
+    private val helper = BookModel()
+
 
     //Disable back
     override fun onBackPressed() {
@@ -47,6 +47,8 @@ class AddBook : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
+
+
 
         //Check camera permission
         when (PackageManager.PERMISSION_GRANTED) {
@@ -59,16 +61,10 @@ class AddBook : AppCompatActivity() {
             else -> {
                 //make request
                 requestPermissions(arrayOf(Manifest.permission.CAMERA),
-                    AddBook.REQUEST_IMAGE_CAPTURE
+                    REQUEST_IMAGE_CAPTURE
                 )
             }
         }
-
-        var bookArray = intent.getParcelableArrayListExtra<Book>("EXTRA_bookArray")
-        var arrStatusNew : Int
-        arrStatusNew = intent.getIntExtra("EXTRA_arrStatus",1)
-
-        //TODO: Check if textfield is empty after done is clicked
 
 
         doneBtn.setOnClickListener(){
@@ -86,21 +82,16 @@ class AddBook : AppCompatActivity() {
                 bookCover = currentPhotoPath
             }
 
-
             var newBook = Book(
                     author = bookAuthor,
                     book_title = bookTitle,
                     book_desc = bookDesc,
-                    book_cover = Uri.parse(bookCover)
+                    book_cover = bookCover
             )
 
-
-            bookArray.add(newBook)
+            helper.addBook(realm,newBook)
 
             val intent = Intent(this, BookList::class.java)
-            arrStatusNew = 2
-            intent.putExtra("EXTRA_UpdatedStatus", arrStatusNew)
-            intent.putParcelableArrayListExtra("EXTRA_UpdatedBookArray", bookArray)
             startActivity(intent)
             finish()
         }
@@ -133,9 +124,6 @@ class AddBook : AppCompatActivity() {
 
         backBtn.setOnClickListener(){
             val intent = Intent(this, BookList::class.java)
-            arrStatusNew = 3
-            intent.putExtra("EXTRA_UpdatedStatus", arrStatusNew)
-            intent.putParcelableArrayListExtra("EXTRA_UpdatedBookArray", bookArray)
             startActivity(intent)
             finish()
         }

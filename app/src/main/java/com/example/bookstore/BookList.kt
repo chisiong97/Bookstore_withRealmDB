@@ -1,24 +1,29 @@
 package com.example.bookstore
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.realm.Realm
+import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.booklist_action_bar_layout.*
+import io.realm.kotlin.createObject
+import io.realm.kotlin.where
 
 
 class BookList : AppCompatActivity() {
 
     //1 = init ori array , 2 = load latest updated array, 3 = load last updated array(no new book added)
-    var arrStatus = 1
+    //var arrStatus = 1
     var bookArray = arrayListOf<Book>()
+
+
+    private val helper = BookModel()
 
     //Disable back
     override fun onBackPressed() {
@@ -28,48 +33,16 @@ class BookList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_list)
+        Realm.init(this)
 
-        arrStatus = intent.getIntExtra("EXTRA_UpdatedStatus", 1)
-
-        //TODO: Change book_cover attributes to URI
-        if (arrStatus==1){
-            //Init array
-            /*
-            bookArray.add(
-                (Book(
-                    author = "CS",
-                    book_title = "Programming",
-                    book_desc = "This is a random description.",
-                    book_cover =  Uri.parse("/storage/emulated/0/Android/data/com.example.bookstore/files/Pictures/java.jpg")
-                    )
-                )
-            )
-
-            bookArray.add(
-                (Book(
-                    author = "CS",
-                    book_title = "Dictionary",
-                    book_desc = "This is a dictionary description.",
-                    book_cover = Uri.parse("/storage/emulated/0/Android/data/com.example.bookstore/files/Pictures/dict.png")
-                    )
-                )
-            )
-
-             */
-
-        }else {
-            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-            bookArray = intent.getParcelableArrayListExtra("EXTRA_UpdatedBookArray")
-        }
-
-
-        val LOAD = "Test"
-        //Log.d(LOAD, newBook.toString())
-        Log.d(LOAD, bookArray.toString())
+        //Get result from db
+        val realm = Realm.getDefaultInstance()
+        val results = realm.where<Book>().findAll()
+        bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
 
         recyclerView.apply {
             layoutManager = LinearLayoutManager(this@BookList)
-            adapter = BooksAdapter(bookArray,arrStatus)
+            adapter = BooksAdapter(bookArray)
             addItemDecoration(DividerItemDecoration(this@BookList, LinearLayoutManager.VERTICAL))
         }
 
@@ -78,7 +51,11 @@ class BookList : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = recyclerView.adapter as BooksAdapter
-                adapter.removeAt(viewHolder.adapterPosition)
+                val currentDeleted = adapter.removeAt(viewHolder.adapterPosition)
+                println("Current dlt booklist: "+ currentDeleted)
+                println("Array: " + bookArray)
+
+                helper.removeBook(realm, currentDeleted)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
@@ -87,10 +64,6 @@ class BookList : AppCompatActivity() {
         //Action bar buttons onclicklistener
         addBtn.setOnClickListener(){
             val intent = Intent(this, AddBook::class.java)
-            intent.putExtra("EXTRA_arrStatus", arrStatus)
-            intent.putParcelableArrayListExtra("EXTRA_bookArray", bookArray)
-            Log.d(LOAD, bookArray.toString())
-
             startActivity(intent)
             finish()
         }

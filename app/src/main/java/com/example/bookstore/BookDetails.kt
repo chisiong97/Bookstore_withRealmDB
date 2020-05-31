@@ -15,6 +15,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.FileProvider
+import io.realm.Realm
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_add_book.*
 import kotlinx.android.synthetic.main.activity_book_details.*
 import kotlinx.android.synthetic.main.activity_book_details.imageView
@@ -27,6 +29,8 @@ import java.util.*
 class BookDetails : AppCompatActivity() {
 
     var newPhoto = false
+    private val realm = Realm.getDefaultInstance()
+    private val helper = BookModel()
 
     //Disable back
     override fun onBackPressed() {
@@ -37,26 +41,24 @@ class BookDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_details)
 
-        val bookArray = intent.getParcelableArrayListExtra<Book>("EXTRA_bookArray")
-        var arrStatusNew : Int
-        arrStatusNew = intent.getIntExtra("EXTRA_arrStatus",3)
-
-        val adapterPos = intent.getIntExtra("EXTRA_adapterPosition", 0)
-
         //Appbar title changes according to book title
-        val currentBook = bookArray[adapterPos]
+
+        val currentBookID = intent.getIntExtra("EXTRA_BookID", 0)
+        val results = helper.getBook(realm,currentBookID)
+        val currentBook: Book? = results?.get(0)
+
         val tv1 : TextView = findViewById(R.id.book_title_appbar)
-        tv1.text = currentBook.book_title
+        tv1.text = currentBook?.book_title
 
         //Fetch book details into each respective field
         val title : EditText = findViewById(R.id.book_title)
         val author : EditText = findViewById(R.id.author)
         val desc : EditText = findViewById(R.id.description)
 
-        title.setText(currentBook.book_title)
-        author.setText(currentBook.author)
-        desc.setText(currentBook.book_desc)
-        imageView.setImageURI(currentBook.book_cover)
+        title.setText(currentBook?.book_title)
+        author.setText(currentBook?.author)
+        desc.setText(currentBook?.book_desc)
+        imageView.setImageURI(Uri.parse(currentBook?.book_cover))
 
         //Disable text field editable
         title.inputType = TYPE_NULL
@@ -67,9 +69,6 @@ class BookDetails : AppCompatActivity() {
         //Back button
         backBtn.setOnClickListener {
             val intent = Intent(this, BookList::class.java)
-            arrStatusNew = 3
-            intent.putExtra("EXTRA_UpdatedStatus", arrStatusNew)
-            intent.putParcelableArrayListExtra("EXTRA_UpdatedBookArray", bookArray)
             startActivity(intent)
             finish()
         }
@@ -78,20 +77,29 @@ class BookDetails : AppCompatActivity() {
         editBtn.setOnClickListener {
             //Edit button change to Done button once activated
             if (editBtn.text == "Done"){
-                //Update book arraylist
-                currentBook.book_title = title.text.toString()
-                currentBook.author = author.text.toString()
-                currentBook.book_desc = desc.text.toString()
 
+
+                val bookId = currentBook?.id
+                val updatedAuthor = author.text.toString()
+                val updatedCover : String
                 //check if user changed photo
                 if (newPhoto){
-                    currentBook.book_cover = Uri.parse(currentPhotoPath)
+                    updatedCover = currentPhotoPath
+                }else{
+                    updatedCover = currentBook?.book_cover.toString()
                 }
 
+                val updatedDesc = desc.text.toString()
+                val updatedTitle = title.text.toString()
+
+                helper.updateBook(realm,
+                    bookId ,
+                    updatedAuthor,
+                    updatedCover,
+                    updatedDesc,
+                    updatedTitle)
+
                 val intent = Intent(this, BookList::class.java)
-                arrStatusNew = 2
-                intent.putExtra("EXTRA_UpdatedStatus", arrStatusNew)
-                intent.putParcelableArrayListExtra("EXTRA_UpdatedBookArray", bookArray)
                 startActivity(intent)
                 finish()
 

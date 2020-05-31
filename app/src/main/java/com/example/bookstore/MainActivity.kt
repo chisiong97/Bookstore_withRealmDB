@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.ArrayList
 import kotlin.system.exitProcess
@@ -20,6 +21,8 @@ import kotlin.collections.arrayListOf
 class MainActivity : AppCompatActivity() {
 
     private var doubleBackToExitPressed = 1
+
+
     override fun onBackPressed() {
         if (doubleBackToExitPressed == 2) {
             finishAffinity()
@@ -39,7 +42,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Init Realm (only once)
 
+        //Testing
+        /*
+        Realm.init(this)
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        realm.deleteAll()
+        realm.commitTransaction()
+        */
 
         //Check read permission
         when (PackageManager.PERMISSION_GRANTED) {
@@ -56,23 +68,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) -> {
-                // proceed
-            }
-            else -> {
-                //make request
-                requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    AddBook.REQUEST_IMAGE_CAPTURE
-                )
-            }
-        }
-
-
 
         loginBtn.setOnClickListener{
 

@@ -1,13 +1,14 @@
 package com.example.bookstore
 
-import android.net.Uri
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-@Parcelize
-data class Book (
-    var author: String,
-    var book_cover : Uri,
-    var book_desc : String,
-    var book_title: String
-):Parcelable
+
+open class Book(
+    @PrimaryKey
+    var id: Int? = null,
+    var author: String? = null,
+    var book_cover: String? = null,
+    var book_desc: String? = null,
+    var book_title: String? = null
+):RealmObject()
