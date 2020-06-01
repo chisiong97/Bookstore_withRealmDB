@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -14,6 +15,7 @@ import android.text.InputType.TYPE_NULL
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.FileProvider
 import io.realm.Realm
@@ -37,6 +39,7 @@ class BookDetails : AppCompatActivity() {
         //super.onBackPressed()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_details)
@@ -44,6 +47,7 @@ class BookDetails : AppCompatActivity() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initUI(){
 
         //Appbar title changes according to book title
@@ -65,9 +69,9 @@ class BookDetails : AppCompatActivity() {
         btnImage.setImageURI(Uri.parse(currentBook?.book_cover))
 
         //Disable text field editable
-        title.inputType = TYPE_NULL
-        author.inputType = TYPE_NULL
-        desc.inputType = TYPE_NULL
+        title.isEnabled = false
+        author.isEnabled = false
+        desc.isEnabled = false
         btnImage.isEnabled = false
 
         //Back button
@@ -113,9 +117,9 @@ class BookDetails : AppCompatActivity() {
             }else{
                 btnEdit.text = "Done"
                 //Set text field editable
-                title.inputType = TYPE_CLASS_TEXT
-                author.inputType = TYPE_CLASS_TEXT
-                desc.inputType = TYPE_CLASS_TEXT
+                title.isEnabled = true
+                author.isEnabled = true
+                desc.isEnabled = true
                 btnImage.isEnabled = true
 
             }
@@ -148,6 +152,7 @@ class BookDetails : AppCompatActivity() {
 
 
     }
+
 
     //function for pick image from gallery
     private fun pickImageFromGallery() {
