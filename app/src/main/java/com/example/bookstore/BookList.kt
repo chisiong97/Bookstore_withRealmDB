@@ -18,10 +18,7 @@ import io.realm.kotlin.where
 
 class BookList : AppCompatActivity() {
 
-    //1 = init ori array , 2 = load latest updated array, 3 = load last updated array(no new book added)
-    //var arrStatus = 1
     var bookArray = arrayListOf<Book>()
-
 
     private val helper = BookModel()
 
@@ -51,24 +48,20 @@ class BookList : AppCompatActivity() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val adapter = recyclerView.adapter as BooksAdapter
-                val currentDeleted = adapter.removeAt(viewHolder.adapterPosition)
-                println("Current dlt booklist: "+ currentDeleted)
-                println("Array: " + bookArray)
-
-                helper.removeBook(realm, currentDeleted)
+                adapter.removeAt(viewHolder.adapterPosition)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         //Action bar buttons onclicklistener
-        addBtn.setOnClickListener(){
+        btnAddBook.setOnClickListener(){
             val intent = Intent(this, AddBook::class.java)
             startActivity(intent)
             finish()
         }
 
-        logoutBtn.setOnClickListener(){
+        btnLogout.setOnClickListener(){
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }

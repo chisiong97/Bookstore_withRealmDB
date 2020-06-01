@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import io.realm.Realm
 import kotlinx.android.synthetic.main.book_item.view.*
 
 class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<BooksAdapter.ViewHolder>() {
+    private val helper = BookModel()
+    val realm = Realm.getDefaultInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.book_item, parent,false)
@@ -31,8 +34,9 @@ class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<
     }
 
     fun removeAt(position: Int) :Int{
+        val currentDeleted = books[position].id
+        helper.removeBook(realm, currentDeleted!!)
         books.removeAt(position)
-        println("Current deleted: " + position)
         notifyItemRemoved(position)
 
         return position

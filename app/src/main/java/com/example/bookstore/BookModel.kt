@@ -56,16 +56,6 @@ class BookModel : BookInterface {
 
     override fun updateBook(realm: Realm, id: Int? , author: String?, cover:String?,desc:String?,title:String?): Boolean {
         return try{
-            /*
-            val result = realm.where(Book ::class.java).equalTo("id", id).findFirst().
-            realm.beginTransaction()
-            result?.author = author
-            result?.book_cover = cover
-            result?.book_desc = desc
-            result?.book_title = title
-            realm.commitTransaction()
-
-             */
 
             realm.executeTransactionAsync(Realm.Transaction { bgRealm ->
                 // Find a dog to update.

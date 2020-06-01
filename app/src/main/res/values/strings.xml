@@ -2,7 +2,7 @@
     <string name="app_name">SS Bookstore</string>
     <string name="edit_username">ID</string>
     <string name="edit_password">Password</string>
-    <string name="button_login">login</string>
+    <string name="button_login">Login</string>
     <string name="add_btn">Add Book</string>
     <string name="button_logout">Logout</string>
     <string name="book_title">Book Title :</string>
