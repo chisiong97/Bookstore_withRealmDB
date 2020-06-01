@@ -11,7 +11,7 @@
         layout="@layout/bookdetails_action_bar_layout" />
 
     <ImageButton
-        android:id="@+id/imageView"
+        android:id="@+id/btnImage"
         android:layout_width="191dp"
         android:layout_height="236dp"
         android:autofillHints="Click here to edit photo"
@@ -24,7 +24,7 @@
         app:srcCompat="@drawable/ic_simplebook" />
 
     <EditText
-        android:id="@+id/book_title"
+        android:id="@+id/etBookTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -36,7 +36,7 @@
         app:layout_constraintVertical_bias="0.662" />
 
     <EditText
-        android:id="@+id/author"
+        android:id="@+id/etAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -48,7 +48,7 @@
         app:layout_constraintVertical_bias="0.776" />
 
     <EditText
-        android:id="@+id/description"
+        android:id="@+id/etDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -61,7 +61,7 @@
         app:layout_constraintVertical_bias="0.895" />
 
     <TextView
-        android:id="@+id/book_title_holder"
+        android:id="@+id/lblBook_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/book_title"
@@ -73,7 +73,7 @@
         app:layout_constraintVertical_bias="0.656" />
 
     <TextView
-        android:id="@+id/author_holder"
+        android:id="@+id/lblAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/author"
@@ -85,7 +85,7 @@
         app:layout_constraintVertical_bias="0.764" />
 
     <TextView
-        android:id="@+id/description_holder"
+        android:id="@+id/lblDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/book_description"

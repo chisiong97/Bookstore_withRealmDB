@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:id="@+id/custom_action_bar_layout"
+    android:id="@+id/bookdetails_action_bar_layout"
     android:background="@color/colorAccent">
 
     <TableRow>
         <Button
-            android:id="@+id/backBtn"
+            android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/back_btn"
@@ -17,7 +17,7 @@
             />
 
         <TextView
-            android:id="@+id/book_title_appbar"
+            android:id="@+id/lblAppBarTitle"
             android:layout_gravity="center|center_horizontal|fill_horizontal|center_vertical"
             android:text="@string/disp_book_title"
             android:gravity="center_horizontal"
@@ -28,7 +28,7 @@
             />
 
         <Button
-            android:id="@+id/editBtn"
+            android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/edit_btn"

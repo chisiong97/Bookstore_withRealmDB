@@ -2,6 +2,7 @@ package com.example.bookstore
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -18,10 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import io.realm.Realm
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.activity_add_book.author
-import kotlinx.android.synthetic.main.activity_add_book.book_title
-import kotlinx.android.synthetic.main.activity_add_book.description
-import kotlinx.android.synthetic.main.activity_add_book.imageView
+import kotlinx.android.synthetic.main.activity_add_book.*
 import kotlinx.android.synthetic.main.addbook_action_bar_layout.*
 import java.io.File
 import java.io.IOException
@@ -37,7 +35,6 @@ class AddBook : AppCompatActivity() {
     private val realm = Realm.getDefaultInstance()
     private val helper = BookModel()
 
-
     //Disable back
     override fun onBackPressed() {
         //super.onBackPressed()
@@ -47,35 +44,20 @@ class AddBook : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
+        checkCameraPermission()
+        initUI()
+    }
 
-
-
-        //Check camera permission
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) -> {
-                // proceed
-            }
-            else -> {
-                //make request
-                requestPermissions(arrayOf(Manifest.permission.CAMERA),
-                    REQUEST_IMAGE_CAPTURE
-                )
-            }
-        }
-
-
+    private fun initUI(){
         doneBtn.setOnClickListener(){
-            if (book_title.text.isEmpty()){
-                book_title.error = "Book title cannot be empty!"
+            if (etBookTitle.text.isEmpty()){
+                etBookTitle.error = "Book title cannot be empty!"
                 return@setOnClickListener
             }
 
-            val bookTitle = book_title.text.toString()
-            val bookAuthor = author.text.toString()
-            val bookDesc = description.text.toString()
+            val bookTitle = etBookTitle.text.toString()
+            val bookAuthor = etAuthor.text.toString()
+            val bookDesc = etDesc.text.toString()
             var bookCover = ""
 
             if (newPhoto){
@@ -83,25 +65,25 @@ class AddBook : AppCompatActivity() {
             }
 
             var newBook = Book(
-                    author = bookAuthor,
-                    book_title = bookTitle,
-                    book_desc = bookDesc,
-                    book_cover = bookCover
+                author = bookAuthor,
+                book_title = bookTitle,
+                book_desc = bookDesc,
+                book_cover = bookCover
             )
 
             helper.addBook(realm,newBook)
 
-            val intent = Intent(this, BookList::class.java)
-            startActivity(intent)
+            val returnIntent = Intent()
+            returnIntent.putExtra("Update",true)
+            setResult(Activity.RESULT_OK, returnIntent)
             finish()
         }
 
 
-
         //Show image menu options
-        imageView.setOnClickListener(){
+        btnBookCover.setOnClickListener(){
             println("imgBtn clicked!")
-            val popupMenu = PopupMenu(this, imageView)
+            val popupMenu = PopupMenu(this, btnBookCover)
             popupMenu.menuInflater.inflate(R.menu.imageoptions,popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { item ->
                 //switch case
@@ -123,12 +105,34 @@ class AddBook : AppCompatActivity() {
         }
 
         backBtn.setOnClickListener(){
+            /*
             val intent = Intent(this, BookList::class.java)
             startActivity(intent)
+
+             */
             finish()
         }
 
+    }
 
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun checkCameraPermission(){
+        //Check camera permission
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) -> {
+                // proceed
+            }
+            else -> {
+                //make request
+                requestPermissions(arrayOf(Manifest.permission.CAMERA),
+                    REQUEST_IMAGE_CAPTURE
+                )
+            }
+        }
     }
 
 
@@ -173,14 +177,14 @@ class AddBook : AppCompatActivity() {
                 REQUEST_IMAGE_CAPTURE -> {
                     println("Image captured")
                     val imagePath = Uri.parse(currentPhotoPath)
-                    imageView.setImageURI(imagePath)
+                    btnBookCover.setImageURI(imagePath)
                     println("Image Path: "+ imagePath)
                     newPhoto = true
                 }
                 IMAGE_PICK_CODE ->  {
                     println("Load library")
                     currentPhotoPath = (data!!.data).toString()
-                    imageView.setImageURI(data.data)
+                    btnBookCover.setImageURI(data.data)
                     println(currentPhotoPath)
                     newPhoto = true
                 }

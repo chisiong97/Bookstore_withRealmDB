@@ -1,5 +1,7 @@
 package com.example.bookstore
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -7,11 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.recyclerview.widget.RecyclerView
 import io.realm.Realm
 import kotlinx.android.synthetic.main.book_item.view.*
 
-class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<BooksAdapter.ViewHolder>() {
+class BooksAdapter(private val books: MutableList<Book>, private val currentActivity: Activity) : RecyclerView.Adapter<BooksAdapter.ViewHolder>() {
     private val helper = BookModel()
     val realm = Realm.getDefaultInstance()
 
@@ -53,10 +56,13 @@ class BooksAdapter(private val books: MutableList<Book>) : RecyclerView.Adapter<
                 val selectedBook = books[adapterPosition].id
                 val intent = Intent(itemView.context, BookDetails::class.java)
                 intent.putExtra("EXTRA_BookID", selectedBook)
-                itemView.context.startActivity(intent)
+                currentActivity.startActivityForResult(intent,1)
+                //itemView.context.startActivity(intent)
             }
         }
     }
 
 }
+
+
 

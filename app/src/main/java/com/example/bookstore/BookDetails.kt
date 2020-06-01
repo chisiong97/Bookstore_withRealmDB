@@ -1,6 +1,7 @@
 package com.example.bookstore
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -19,7 +20,6 @@ import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_add_book.*
 import kotlinx.android.synthetic.main.activity_book_details.*
-import kotlinx.android.synthetic.main.activity_book_details.imageView
 import kotlinx.android.synthetic.main.bookdetails_action_bar_layout.*
 import java.io.File
 import java.io.IOException
@@ -40,44 +40,49 @@ class BookDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_details)
+        initUI()
+
+    }
+
+    private fun initUI(){
 
         //Appbar title changes according to book title
-
         val currentBookID = intent.getIntExtra("EXTRA_BookID", 0)
         val results = helper.getBook(realm,currentBookID)
         val currentBook: Book? = results?.get(0)
 
-        val tv1 : TextView = findViewById(R.id.book_title_appbar)
-        tv1.text = currentBook?.book_title
+        val lblAppBar : TextView = findViewById(R.id.lblAppBarTitle)
+        lblAppBar.text = currentBook?.book_title
 
         //Fetch book details into each respective field
-        val title : EditText = findViewById(R.id.book_title)
-        val author : EditText = findViewById(R.id.author)
-        val desc : EditText = findViewById(R.id.description)
+        val title : EditText = findViewById(R.id.etBookTitle)
+        val author : EditText = findViewById(R.id.etAuthor)
+        val desc : EditText = findViewById(R.id.etDesc)
 
         title.setText(currentBook?.book_title)
         author.setText(currentBook?.author)
         desc.setText(currentBook?.book_desc)
-        imageView.setImageURI(Uri.parse(currentBook?.book_cover))
+        btnImage.setImageURI(Uri.parse(currentBook?.book_cover))
 
         //Disable text field editable
         title.inputType = TYPE_NULL
         author.inputType = TYPE_NULL
         desc.inputType = TYPE_NULL
-        imageView.isEnabled = false
+        btnImage.isEnabled = false
 
         //Back button
-        backBtn.setOnClickListener {
-            val intent = Intent(this, BookList::class.java)
-            startActivity(intent)
+        btnBack.setOnClickListener {
+
+            val returnIntent = Intent()
+            returnIntent.putExtra("Update",true)
+            setResult(Activity.RESULT_OK, returnIntent)
             finish()
         }
 
         //Edit button
-        editBtn.setOnClickListener {
+        btnEdit.setOnClickListener {
             //Edit button change to Done button once activated
-            if (editBtn.text == "Done"){
-
+            if (btnEdit.text == "Done"){
 
                 val bookId = currentBook?.id
                 val updatedAuthor = author.text.toString()
@@ -99,26 +104,28 @@ class BookDetails : AppCompatActivity() {
                     updatedDesc,
                     updatedTitle)
 
-                val intent = Intent(this, BookList::class.java)
-                startActivity(intent)
+                val returnIntent = Intent()
+                returnIntent.putExtra("Update",true)
+                setResult(Activity.RESULT_OK, returnIntent)
                 finish()
 
+
             }else{
-                editBtn.text = "Done"
+                btnEdit.text = "Done"
                 //Set text field editable
                 title.inputType = TYPE_CLASS_TEXT
                 author.inputType = TYPE_CLASS_TEXT
                 desc.inputType = TYPE_CLASS_TEXT
-                imageView.isEnabled = true
+                btnImage.isEnabled = true
 
             }
 
         }
 
         //Image button
-        imageView.setOnClickListener(){
+        btnImage.setOnClickListener(){
             println("imgBtn clicked!")
-            val popupMenu = PopupMenu(this, imageView)
+            val popupMenu = PopupMenu(this, btnImage)
             popupMenu.menuInflater.inflate(R.menu.imageoptions,popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { item ->
                 //switch case
@@ -138,6 +145,8 @@ class BookDetails : AppCompatActivity() {
             }
             popupMenu.show()
         }
+
+
     }
 
     //function for pick image from gallery
@@ -166,14 +175,14 @@ class BookDetails : AppCompatActivity() {
                 REQUEST_IMAGE_CAPTURE -> {
                     println("Image captured")
                     val imagePath = Uri.parse(currentPhotoPath)
-                    imageView.setImageURI(imagePath)
+                    btnImage.setImageURI(imagePath)
                     println("Image Path: "+ imagePath)
                     newPhoto = true
                 }
                 IMAGE_PICK_CODE ->  {
                     println("Load library")
                     currentPhotoPath = (data!!.data).toString()
-                    imageView.setImageURI(data.data)
+                    btnImage.setImageURI(data.data)
                     println(currentPhotoPath)
                     newPhoto = true
                 }

@@ -1,5 +1,7 @@
 package com.example.bookstore
 
+import android.app.Activity
+import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +22,7 @@ class BookList : AppCompatActivity() {
 
     var bookArray = arrayListOf<Book>()
 
+
     private val helper = BookModel()
 
     //Disable back
@@ -30,41 +33,58 @@ class BookList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_list)
-        Realm.init(this)
+        initUI()
+    }
 
-        //Get result from db
+    override fun onActivityResult(requestCode : Int, resultCode : Int, data : Intent?){
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                initRecyclerUI()
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }
+
+    private fun initUI(){
+        initRecyclerUI()
+
+        btnAddBook.setOnClickListener(){
+            val intent = Intent(this, AddBook::class.java)
+            startActivityForResult(intent,1)
+        }
+
+        btnLogout.setOnClickListener(){
+            finish()
+        }
+    }
+
+    private fun initRecyclerUI(){
+        //Fetch data to array from db
         val realm = Realm.getDefaultInstance()
+
         val results = realm.where<Book>().findAll()
+
         bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
 
-        recyclerView.apply {
+        //Fetch array to recyclerview
+        bookRecycleView.apply {
             layoutManager = LinearLayoutManager(this@BookList)
-            adapter = BooksAdapter(bookArray)
+            adapter = BooksAdapter(bookArray, this@BookList)
             addItemDecoration(DividerItemDecoration(this@BookList, LinearLayoutManager.VERTICAL))
         }
 
         //Add swipe to delete into recyclerview
         val swipeHandler = object : SwipeToDeleteCallback(this) {
-
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = recyclerView.adapter as BooksAdapter
+                val adapter = bookRecycleView.adapter as BooksAdapter
                 adapter.removeAt(viewHolder.adapterPosition)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-
-        //Action bar buttons onclicklistener
-        btnAddBook.setOnClickListener(){
-            val intent = Intent(this, AddBook::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-        btnLogout.setOnClickListener(){
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
+        itemTouchHelper.attachToRecyclerView(bookRecycleView)
 
     }
 

@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
 
     private var doubleBackToExitPressed = 1
 
-
     override fun onBackPressed() {
         if (doubleBackToExitPressed == 2) {
             finishAffinity()
@@ -41,19 +40,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //Init Realm (only once)
-
-        //Testing
-        /*
+        checkPermission()
         Realm.init(this)
-        val realm = Realm.getDefaultInstance()
-        realm.beginTransaction()
-        realm.deleteAll()
-        realm.commitTransaction()
-        */
+        initUI()
 
-        //Check read permission
+    }
+
+    //Check read permission
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun checkPermission(){
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(
                 this,
@@ -68,18 +63,21 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
 
-        loginBtn.setOnClickListener{
+    private fun initUI(){
+        btnLogin.setOnClickListener{
 
             val intent = Intent(this, BookList::class.java)
-            if(username.text.toString().equals("SS") && password.text.toString().equals("11111")) {
+            if(etUsername.text.toString().equals("SS") && etPassword.text.toString().equals("11111")) {
                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
-                finish()
             }
             else
                 Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
 
         }
     }
+
+
 }
