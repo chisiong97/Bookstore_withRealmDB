@@ -1,7 +1,9 @@
 # Bookstore (with Realm DB)
 ## *Mobile Development tutorial*
 
-## Status:
+## Status: Fixing issue <br/>
+Check issues tab <br/>
+
 ## **Login** <br/>
 -Done. <br/>
 -Credentials:<br/>
