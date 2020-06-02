@@ -73,6 +73,9 @@ class AddBook : AppCompatActivity() {
 
             helper.addBook(realm,newBook)
 
+
+
+
             val returnIntent = Intent()
             returnIntent.putExtra("Update",true)
             setResult(Activity.RESULT_OK, returnIntent)
@@ -105,11 +108,6 @@ class AddBook : AppCompatActivity() {
         }
 
         backBtn.setOnClickListener(){
-            /*
-            val intent = Intent(this, BookList::class.java)
-            startActivity(intent)
-
-             */
             finish()
         }
 

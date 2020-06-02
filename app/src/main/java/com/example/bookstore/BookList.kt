@@ -43,8 +43,10 @@ class BookList : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
+
+                //bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
                 println("Current bookArray: " + bookArray)
+
                 viewAdapter.notifyDataSetChanged()
             }
             if (resultCode == Activity.RESULT_CANCELED) {
