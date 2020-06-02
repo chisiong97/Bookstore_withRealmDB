@@ -10,6 +10,13 @@
         android:id="@+id/custom_AppBar2"
         layout="@layout/addbook_action_bar_layout" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline"
+        app:layout_constraintGuide_begin="150dp"
+        android:orientation="vertical"/>
+
     <ImageButton
         android:id="@+id/btnBookCover"
         android:layout_width="191dp"
@@ -30,14 +37,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginEnd="0dp"
         android:padding="10dp"
         android:text="@string/book_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/lblAuthor"
-        app:layout_constraintEnd_toStartOf="@id/etBookTitle"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/btnBookCover" />
 
     <TextView
@@ -47,12 +54,14 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
         android:padding="10dp"
         android:text="@string/author"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/etAuthor"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/lblBook_Title"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@id/lblDesc"
+        />
 
     <TextView
         android:id="@+id/lblDesc"
@@ -61,10 +70,11 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
         android:padding="10dp"
         android:text="@string/book_description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/etDesc"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/lblAuthor"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
@@ -72,14 +82,14 @@
         android:id="@+id/etBookTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:ems="10"
         app:layout_constraintBottom_toTopOf="@id/etAuthor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/lblBook_Title"
+        app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toBottomOf="@id/btnBookCover" />
 
     <EditText
@@ -87,10 +97,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="0dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
         android:ems="10"
-        app:layout_constraintStart_toEndOf="@id/lblAuthor"
+        app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/etDesc"
         app:layout_constraintTop_toBottomOf="@id/etBookTitle" />
@@ -100,10 +111,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="10dp"
         android:ems="10"
-        app:layout_constraintStart_toEndOf="@id/lblDesc"
+        app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etAuthor"
         app:layout_constraintBottom_toBottomOf="parent"/>

@@ -21,6 +21,9 @@ import io.realm.kotlin.where
 class BookList : AppCompatActivity() {
 
     var bookArray = arrayListOf<Book>()
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    val realm = Realm.getDefaultInstance()
+    val results = realm.where<Book>().findAll()
 
 
     private val helper = BookModel()
@@ -40,7 +43,9 @@ class BookList : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                initRecyclerUI()
+                bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
+                println("Current bookArray: " + bookArray)
+                viewAdapter.notifyDataSetChanged()
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -63,16 +68,13 @@ class BookList : AppCompatActivity() {
 
     private fun initRecyclerUI(){
         //Fetch data to array from db
-        val realm = Realm.getDefaultInstance()
-
-        val results = realm.where<Book>().findAll()
-
         bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
+        viewAdapter = BooksAdapter(bookArray, this@BookList)
 
         //Fetch array to recyclerview
         bookRecycleView.apply {
             layoutManager = LinearLayoutManager(this@BookList)
-            adapter = BooksAdapter(bookArray, this@BookList)
+            adapter = viewAdapter
             addItemDecoration(DividerItemDecoration(this@BookList, LinearLayoutManager.VERTICAL))
         }
 
