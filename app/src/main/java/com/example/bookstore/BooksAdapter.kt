@@ -31,11 +31,6 @@ class BooksAdapter(private val books: MutableList<Book>, private val currentActi
         holder.book_cover.setImageURI(Uri.parse(books[position].book_cover))
     }
 
-    fun addItem(item:Book) {
-        books.add(item)
-        notifyItemInserted(books.size)
-    }
-
     fun removeAt(position: Int) :Int{
         val currentDeleted = books[position].id
         helper.removeBook(realm, currentDeleted!!)
@@ -57,7 +52,6 @@ class BooksAdapter(private val books: MutableList<Book>, private val currentActi
                 val intent = Intent(itemView.context, BookDetails::class.java)
                 intent.putExtra("EXTRA_BookID", selectedBook)
                 currentActivity.startActivityForResult(intent,1)
-                //itemView.context.startActivity(intent)
             }
         }
     }
