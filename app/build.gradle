@@ -48,6 +48,8 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support:multidex:1.0.3'
-    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    implementation 'io.realm:android-adapters:2.1.1'
+    kapt 'dk.ilios:realmfieldnameshelper:1.1.1'
+    implementation 'io.realm:android-adapters:2.1.1'
 
 }

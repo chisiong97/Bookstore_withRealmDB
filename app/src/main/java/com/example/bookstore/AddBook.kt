@@ -18,15 +18,12 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import io.realm.Realm
-import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_add_book.*
 import kotlinx.android.synthetic.main.addbook_action_bar_layout.*
 import java.io.File
 import java.io.IOException
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class AddBook : AppCompatActivity() {
@@ -72,9 +69,7 @@ class AddBook : AppCompatActivity() {
             )
 
             helper.addBook(realm,newBook)
-
-
-
+            println("Realm done")
 
             val returnIntent = Intent()
             returnIntent.putExtra("Update",true)

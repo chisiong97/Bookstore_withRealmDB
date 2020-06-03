@@ -1,16 +1,15 @@
 package com.example.bookstore
 
 import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.realm.Realm
+import io.realm.RealmResults
 import io.realm.Sort
 import kotlinx.android.synthetic.main.activity_book_list.*
 import kotlinx.android.synthetic.main.booklist_action_bar_layout.*
@@ -20,13 +19,9 @@ import io.realm.kotlin.where
 
 class BookList : AppCompatActivity() {
 
-    var bookArray = arrayListOf<Book>()
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     val realm = Realm.getDefaultInstance()
     val results = realm.where<Book>().findAll()
-
-
-    private val helper = BookModel()
 
     //Disable back
     override fun onBackPressed() {
@@ -35,17 +30,19 @@ class BookList : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_book_list)
         initUI()
     }
 
     override fun onActivityResult(requestCode : Int, resultCode : Int, data : Intent?){
+        println("Activity Result" + requestCode)
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
 
                 //bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
-                println("Current bookArray: " + bookArray)
+
 
                 viewAdapter.notifyDataSetChanged()
             }
@@ -53,6 +50,21 @@ class BookList : AppCompatActivity() {
                 //Write your code if there's no result
             }
         }
+        if (requestCode == 2){
+            if(resultCode == Activity.RESULT_OK){
+
+                //bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
+
+
+                viewAdapter.notifyDataSetChanged()
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+
+        }
+
     }
 
     private fun initUI(){
@@ -60,7 +72,7 @@ class BookList : AppCompatActivity() {
 
         btnAddBook.setOnClickListener(){
             val intent = Intent(this, AddBook::class.java)
-            startActivityForResult(intent,1)
+            startActivityForResult(intent,2)
         }
 
         btnLogout.setOnClickListener(){
@@ -70,8 +82,9 @@ class BookList : AppCompatActivity() {
 
     private fun initRecyclerUI(){
         //Fetch data to array from db
-        bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
-        viewAdapter = BooksAdapter(bookArray, this@BookList)
+        //bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
+
+        viewAdapter = BooksAdapter(results, this@BookList)
 
         //Fetch array to recyclerview
         bookRecycleView.apply {

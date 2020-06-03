@@ -1,7 +1,6 @@
 package com.example.bookstore
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -9,12 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.recyclerview.widget.RecyclerView
 import io.realm.Realm
+import io.realm.RealmRecyclerViewAdapter
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.book_item.view.*
 
-class BooksAdapter(private val books: MutableList<Book>, private val currentActivity: Activity) : RecyclerView.Adapter<BooksAdapter.ViewHolder>() {
+
+class BooksAdapter(val books: RealmResults<Book>, private val currentActivity: Activity) :
+    RealmRecyclerViewAdapter<Book, BooksAdapter.ViewHolder>(books,true)
+{
+
     private val helper = BookModel()
     val realm = Realm.getDefaultInstance()
 
@@ -26,20 +30,14 @@ class BooksAdapter(private val books: MutableList<Book>, private val currentActi
     override fun getItemCount() = books.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.book_title.text = books[position].book_title
-        holder.author.text = books[position].author
-        holder.book_cover.setImageURI(Uri.parse(books[position].book_cover))
-    }
-
-    fun addItem(item:Book) {
-        books.add(item)
-        notifyItemInserted(books.size)
+        holder.book_title.text = books[position]?.book_title
+        holder.author.text = books[position]?.author
+        holder.book_cover.setImageURI(Uri.parse(books[position]?.book_cover))
     }
 
     fun removeAt(position: Int) :Int{
-        val currentDeleted = books[position].id
+        val currentDeleted = books[position]?.id
         helper.removeBook(realm, currentDeleted!!)
-        books.removeAt(position)
         notifyItemRemoved(position)
 
         return position
@@ -53,7 +51,7 @@ class BooksAdapter(private val books: MutableList<Book>, private val currentActi
         init {
             itemView.setOnClickListener(){
                 println("item clicked$adapterPosition")
-                val selectedBook = books[adapterPosition].id
+                val selectedBook = books[adapterPosition]?.id
                 val intent = Intent(itemView.context, BookDetails::class.java)
                 intent.putExtra("EXTRA_BookID", selectedBook)
                 currentActivity.startActivityForResult(intent,1)
