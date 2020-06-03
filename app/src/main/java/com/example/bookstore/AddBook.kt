@@ -26,28 +26,34 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class AddBook : AppCompatActivity() {
+class AddBook : AppCompatActivity()
+{
 
     private var newPhoto = false
     private val realm = Realm.getDefaultInstance()
     private val helper = BookModel()
 
     //Disable back
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
         //super.onBackPressed()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_book)
         checkCameraPermission()
         initUI()
     }
 
-    private fun initUI(){
-        doneBtn.setOnClickListener(){
-            if (etBookTitle.text.isEmpty()){
+    private fun initUI()
+    {
+        doneBtn.setOnClickListener()
+        {
+            if (etBookTitle.text.isEmpty())
+            {
                 etBookTitle.error = "Book title cannot be empty!"
                 return@setOnClickListener
             }
@@ -57,7 +63,8 @@ class AddBook : AppCompatActivity() {
             val bookDesc = etDesc.text.toString()
             var bookCover = ""
 
-            if (newPhoto){
+            if (newPhoto)
+            {
                 bookCover = currentPhotoPath
             }
 
@@ -79,18 +86,22 @@ class AddBook : AppCompatActivity() {
 
 
         //Show image menu options
-        btnBookCover.setOnClickListener(){
+        btnBookCover.setOnClickListener()
+        {
             println("imgBtn clicked!")
             val popupMenu = PopupMenu(this, btnBookCover)
             popupMenu.menuInflater.inflate(R.menu.imageoptions,popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { item ->
                 //switch case
-                when(item.itemId) {
-                    R.id.navigation_library->{
+                when(item.itemId)
+                {
+                    R.id.navigation_library->
+                    {
                         Toast.makeText(this, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
                         pickImageFromGallery()
                     }
-                    R.id.navigation_camera ->{
+                    R.id.navigation_camera ->
+                    {
                         Toast.makeText(this, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
                         dispatchTakePictureIntent()
                     }
@@ -102,7 +113,8 @@ class AddBook : AppCompatActivity() {
             popupMenu.show()
         }
 
-        backBtn.setOnClickListener(){
+        backBtn.setOnClickListener()
+        {
             finish()
         }
 
@@ -110,16 +122,19 @@ class AddBook : AppCompatActivity() {
 
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun checkCameraPermission(){
+    private fun checkCameraPermission()
+    {
         //Check camera permission
-        when (PackageManager.PERMISSION_GRANTED) {
+        when (PackageManager.PERMISSION_GRANTED)
+        {
             ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA
             ) -> {
                 // proceed
             }
-            else -> {
+            else ->
+            {
                 //make request
                 requestPermissions(arrayOf(Manifest.permission.CAMERA),
                     REQUEST_IMAGE_CAPTURE
@@ -132,12 +147,18 @@ class AddBook : AppCompatActivity() {
 
     //Test camera permission
     val TAG = "Test camera"
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        when (requestCode) {
-            REQUEST_IMAGE_CAPTURE -> {
-                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray)
+    {
+        when (requestCode)
+        {
+            REQUEST_IMAGE_CAPTURE ->
+            {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                {
                     Log.i(TAG, "Permission has been denied by user")
-                } else {
+                }
+                else
+                {
                     Log.i(TAG, "Permission has been granted by user")
                 }
             }
@@ -145,14 +166,16 @@ class AddBook : AppCompatActivity() {
     }
 
     //function for pick image from gallery
-    private fun pickImageFromGallery() {
+    private fun pickImageFromGallery()
+    {
         //Intent to pick image
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
-    companion object {
+    companion object
+    {
         //image pick code
         private val IMAGE_PICK_CODE = 1000
         //camera code
@@ -162,19 +185,24 @@ class AddBook : AppCompatActivity() {
 
     //handle result whether is picked image or camera capture
     @SuppressLint("MissingSuperCall")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
         //super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK)
+        {
             println("Result OK")
-            when(requestCode){
-                REQUEST_IMAGE_CAPTURE -> {
+            when(requestCode)
+            {
+                REQUEST_IMAGE_CAPTURE ->
+                {
                     println("Image captured")
                     val imagePath = Uri.parse(currentPhotoPath)
                     btnBookCover.setImageURI(imagePath)
                     println("Image Path: "+ imagePath)
                     newPhoto = true
                 }
-                IMAGE_PICK_CODE ->  {
+                IMAGE_PICK_CODE ->
+                {
                     println("Load library")
                     currentPhotoPath = (data!!.data).toString()
                     btnBookCover.setImageURI(data.data)
@@ -189,7 +217,8 @@ class AddBook : AppCompatActivity() {
     //create image file
     lateinit var currentPhotoPath: String
 
-    private fun createImageFile():File {
+    private fun createImageFile():File
+    {
         println("Image file created")
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -205,14 +234,18 @@ class AddBook : AppCompatActivity() {
     }
 
     //function to take picture from camera
-    private fun dispatchTakePictureIntent() {
+    private fun dispatchTakePictureIntent()
+    {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {
                 // Create the File where the photo should go
-                val photoFile: File? = try {
+                val photoFile: File? = try
+                {
                     createImageFile()
-                } catch (ex: IOException) {
+                }
+                catch (ex: IOException)
+                {
                     // Error occurred while creating the File
                     println("Error while creating file!")
 
@@ -231,6 +264,5 @@ class AddBook : AppCompatActivity() {
             }
         }
     }
-
 
 }

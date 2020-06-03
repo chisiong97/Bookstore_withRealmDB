@@ -18,16 +18,20 @@ import java.util.ArrayList
 import kotlin.system.exitProcess
 import kotlin.collections.arrayListOf
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()
+{
 
     private var doubleBackToExitPressed = 1
 
-    override fun onBackPressed() {
-        if (doubleBackToExitPressed == 2) {
+    override fun onBackPressed()
+    {
+        if (doubleBackToExitPressed == 2)
+        {
             finishAffinity()
             exitProcess(0)
         }
-        else {
+        else
+        {
             doubleBackToExitPressed++
             Toast.makeText(this,"Please press BACK again to exit", Toast.LENGTH_SHORT).show()
         }
@@ -37,7 +41,8 @@ class MainActivity : AppCompatActivity() {
 
 
     @RequiresApi(Build.VERSION_CODES.M)
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkPermission()
@@ -48,15 +53,18 @@ class MainActivity : AppCompatActivity() {
 
     //Check read permission
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun checkPermission(){
-        when (PackageManager.PERMISSION_GRANTED) {
+    private fun checkPermission()
+    {
+        when (PackageManager.PERMISSION_GRANTED)
+        {
             ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) -> {
                 // proceed
             }
-            else -> {
+            else ->
+            {
                 //make request
                 requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     AddBook.REQUEST_IMAGE_CAPTURE
@@ -65,9 +73,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initUI(){
-        btnLogin.setOnClickListener{
-
+    private fun initUI()
+    {
+        btnLogin.setOnClickListener()
+        {
             val intent = Intent(this, BookList::class.java)
             if(etUsername.text.toString().equals("SS") && etPassword.text.toString().equals("11111")) {
                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
@@ -75,9 +84,6 @@ class MainActivity : AppCompatActivity() {
             }
             else
                 Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
-
         }
     }
-
-
 }

@@ -22,20 +22,23 @@ class BooksAdapter(val books: RealmResults<Book>, private val currentActivity: A
     private val helper = BookModel()
     val realm = Realm.getDefaultInstance()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
+    {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.book_item, parent,false)
         return ViewHolder(view)
     }
 
     override fun getItemCount() = books.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int)
+    {
         holder.book_title.text = books[position]?.book_title
         holder.author.text = books[position]?.author
         holder.book_cover.setImageURI(Uri.parse(books[position]?.book_cover))
     }
 
-    fun removeAt(position: Int) :Int{
+    fun removeAt(position: Int) :Int
+    {
         val currentDeleted = books[position]?.id
         helper.removeBook(realm, currentDeleted!!)
         notifyItemRemoved(position)
@@ -43,13 +46,16 @@ class BooksAdapter(val books: RealmResults<Book>, private val currentActivity: A
         return position
     }
 
-    inner class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView)
+    {
             var book_title:TextView = itemView.book_title
             var author:TextView = itemView.author
             var book_cover:ImageView = itemView.book_cover
 
-        init {
-            itemView.setOnClickListener(){
+        init
+        {
+            itemView.setOnClickListener()
+            {
                 println("item clicked$adapterPosition")
                 val selectedBook = books[adapterPosition]?.id
                 val intent = Intent(itemView.context, BookDetails::class.java)

@@ -5,18 +5,24 @@ import io.realm.RealmResults
 import io.realm.kotlin.where
 import com.example.bookstore.Book as Book
 
-class BookModel : BookInterface {
-    override fun addBook(realm: Realm, book: Book): Boolean {
-        return try {
+class BookModel : BookInterface
+{
+    override fun addBook(realm: Realm, book: Book): Boolean
+    {
+        return try
+        {
             realm.beginTransaction()
 
             val currentIdNum: Number? = realm.where(Book::class.java).max("id")
 
             val nextId: Int
 
-            nextId = if (currentIdNum == null) {
+            nextId = if (currentIdNum == null)
+            {
                 0
-            } else {
+            }
+            else
+            {
                 currentIdNum.toInt() + 1
             }
 
@@ -27,25 +33,32 @@ class BookModel : BookInterface {
             realm.commitTransaction()
 
             true
-        } catch (e: Exception) {
+        }
+        catch (e: Exception)
+        {
             println(e)
             false
         }
     }
 
-    override fun removeBook(realm: Realm, id:Int): Boolean {
-        return try {
+    override fun removeBook(realm: Realm, id:Int): Boolean
+    {
+        return try
+        {
             realm.beginTransaction()
             realm.where(Book ::class.java).equalTo("id", id).findFirst()?.deleteFromRealm()
             realm.commitTransaction()
             true
-        } catch (e: Exception) {
+        }
+        catch (e: Exception)
+        {
             println(e)
             return false
         }
     }
 
-    override fun getBook(realm: Realm, id:Int): RealmResults<Book>? {
+    override fun getBook(realm: Realm, id:Int): RealmResults<Book>?
+    {
 
         val query = realm.where<Book>()
         query.equalTo("id",id)
@@ -54,8 +67,10 @@ class BookModel : BookInterface {
 
     }
 
-    override fun updateBook(realm: Realm, id: Int? , author: String?, cover:String?,desc:String?,title:String?): Boolean {
-        return try{
+    override fun updateBook(realm: Realm, id: Int? , author: String?, cover:String?,desc:String?,title:String?): Boolean
+    {
+        return try
+        {
 
             realm.executeTransactionAsync(Realm.Transaction { bgRealm ->
                 // Find a dog to update.
@@ -70,7 +85,9 @@ class BookModel : BookInterface {
             })
 
             true
-        }catch (e:Exception){
+        }
+        catch (e:Exception)
+        {
             println(e)
             return false
         }

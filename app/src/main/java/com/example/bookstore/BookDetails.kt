@@ -28,19 +28,22 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BookDetails : AppCompatActivity() {
+class BookDetails : AppCompatActivity()
+{
 
     var newPhoto = false
     private val realm = Realm.getDefaultInstance()
     private val helper = BookModel()
 
     //Disable back
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
         //super.onBackPressed()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_book_details)
         initUI()
@@ -48,7 +51,8 @@ class BookDetails : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun initUI(){
+    private fun initUI()
+    {
 
         //Appbar title changes according to book title
         val currentBookID = intent.getIntExtra("EXTRA_BookID", 0)
@@ -75,8 +79,8 @@ class BookDetails : AppCompatActivity() {
         btnImage.isEnabled = false
 
         //Back button
-        btnBack.setOnClickListener {
-
+        btnBack.setOnClickListener()
+        {
             val returnIntent = Intent()
             returnIntent.putExtra("Update",true)
             setResult(Activity.RESULT_OK, returnIntent)
@@ -84,7 +88,8 @@ class BookDetails : AppCompatActivity() {
         }
 
         //Edit button
-        btnEdit.setOnClickListener {
+        btnEdit.setOnClickListener()
+        {
             //Edit button change to Done button once activated
             if (btnEdit.text == "Done"){
 
@@ -92,9 +97,12 @@ class BookDetails : AppCompatActivity() {
                 val updatedAuthor = author.text.toString()
                 val updatedCover : String
                 //check if user changed photo
-                if (newPhoto){
+                if (newPhoto)
+                {
                     updatedCover = currentPhotoPath
-                }else{
+                }
+                else
+                {
                     updatedCover = currentBook?.book_cover.toString()
                 }
 
@@ -114,7 +122,9 @@ class BookDetails : AppCompatActivity() {
                 finish()
 
 
-            }else{
+            }
+            else
+            {
                 btnEdit.text = "Done"
                 //Set text field editable
                 title.isEnabled = true
@@ -127,18 +137,21 @@ class BookDetails : AppCompatActivity() {
         }
 
         //Image button
-        btnImage.setOnClickListener(){
+        btnImage.setOnClickListener()
+        {
             println("imgBtn clicked!")
             val popupMenu = PopupMenu(this, btnImage)
             popupMenu.menuInflater.inflate(R.menu.imageoptions,popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { item ->
                 //switch case
                 when(item.itemId) {
-                    R.id.navigation_library->{
+                    R.id.navigation_library->
+                    {
                         Toast.makeText(this, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
                         pickImageFromGallery()
                     }
-                    R.id.navigation_camera ->{
+                    R.id.navigation_camera ->
+                    {
                         Toast.makeText(this, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
                         dispatchTakePictureIntent()
                     }
@@ -155,14 +168,16 @@ class BookDetails : AppCompatActivity() {
 
 
     //function for pick image from gallery
-    private fun pickImageFromGallery() {
+    private fun pickImageFromGallery()
+    {
         //Intent to pick image
         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
-    companion object {
+    companion object
+    {
         //image pick code
         private val IMAGE_PICK_CODE = 1000
         //camera code
@@ -172,7 +187,8 @@ class BookDetails : AppCompatActivity() {
 
     //handle result whether is picked image or camera capture
     @SuppressLint("MissingSuperCall")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
         //super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK){
             println("Result OK")
@@ -199,7 +215,8 @@ class BookDetails : AppCompatActivity() {
     //create image file
     lateinit var currentPhotoPath: String
 
-    private fun createImageFile(): File {
+    private fun createImageFile(): File
+    {
         println("Image file created")
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -215,7 +232,8 @@ class BookDetails : AppCompatActivity() {
     }
 
     //function to take picture from camera
-    private fun dispatchTakePictureIntent() {
+    private fun dispatchTakePictureIntent()
+    {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
             takePictureIntent.resolveActivity(packageManager)?.also {

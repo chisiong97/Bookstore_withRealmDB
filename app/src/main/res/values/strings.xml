@@ -16,18 +16,4 @@
     <string name="dialog_title">Error</string>
     <string name="dialog_msg">Book title and author cannot be blank!</string>
 
-
-    <string-array name="book_list">
-        <item> Programming in Java </item>
-        <item> ABC for babies </item>
-        <item> Textbook </item>
-        <item> Programming in C </item>
-    </string-array>
-
-    <string-array name="description">
-        <item> This is a random description </item>
-        <item> This is a random description </item>
-        <item> This is a random description </item>
-        <item> This is a random description </item>
-    </string-array>
 </resources>
