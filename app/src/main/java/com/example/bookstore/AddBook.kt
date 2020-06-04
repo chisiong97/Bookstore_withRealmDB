@@ -14,9 +14,11 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_add_book.*
 import kotlinx.android.synthetic.main.addbook_action_bar_layout.*
@@ -55,6 +57,19 @@ class AddBook : AppCompatActivity()
             if (etBookTitle.text.isEmpty())
             {
                 etBookTitle.error = "Book title cannot be empty!"
+                return@setOnClickListener
+            }
+            else if (!newPhoto)
+            {
+                val builder = AlertDialog.Builder(this@AddBook)
+                builder.setMessage("Please include picture!")
+                builder.setTitle("Error")
+                builder.setPositiveButton("OK"){ dialog, which ->
+
+                }
+
+                val dialog :AlertDialog = builder.create()
+                dialog.show()
                 return@setOnClickListener
             }
 
@@ -196,17 +211,20 @@ class AddBook : AppCompatActivity()
                 REQUEST_IMAGE_CAPTURE ->
                 {
                     println("Image captured")
-                    val imagePath = Uri.parse(currentPhotoPath)
-                    btnBookCover.setImageURI(imagePath)
-                    println("Image Path: "+ imagePath)
+
+                    Glide.with(this).load(currentPhotoPath).into(btnBookCover)
+
+                    println(currentPhotoPath)
+
                     newPhoto = true
                 }
                 IMAGE_PICK_CODE ->
                 {
                     println("Load library")
                     currentPhotoPath = (data!!.data).toString()
-                    btnBookCover.setImageURI(data.data)
-                    println(currentPhotoPath)
+
+                    Glide.with(this).load(currentPhotoPath).into(btnBookCover)
+
                     newPhoto = true
                 }
 

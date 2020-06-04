@@ -3,24 +3,20 @@ package com.example.bookstore
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.text.InputType.TYPE_CLASS_TEXT
-import android.text.InputType.TYPE_NULL
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import io.realm.Realm
-import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.activity_add_book.*
 import kotlinx.android.synthetic.main.activity_book_details.*
 import kotlinx.android.synthetic.main.bookdetails_action_bar_layout.*
 import java.io.File
@@ -70,7 +66,7 @@ class BookDetails : AppCompatActivity()
         title.setText(currentBook?.book_title)
         author.setText(currentBook?.author)
         desc.setText(currentBook?.book_desc)
-        btnImage.setImageURI(Uri.parse(currentBook?.book_cover))
+        Glide.with(this).load(currentBook?.book_cover).into(btnImage)
 
         //Disable text field editable
         title.isEnabled = false
@@ -195,15 +191,16 @@ class BookDetails : AppCompatActivity()
             when(requestCode){
                 REQUEST_IMAGE_CAPTURE -> {
                     println("Image captured")
-                    val imagePath = Uri.parse(currentPhotoPath)
-                    btnImage.setImageURI(imagePath)
-                    println("Image Path: "+ imagePath)
+                    Glide.with(this).load(currentPhotoPath).into(btnImage)
+
                     newPhoto = true
                 }
                 IMAGE_PICK_CODE ->  {
                     println("Load library")
                     currentPhotoPath = (data!!.data).toString()
-                    btnImage.setImageURI(data.data)
+
+                    Glide.with(this).load(currentPhotoPath).into(btnImage)
+
                     println(currentPhotoPath)
                     newPhoto = true
                 }

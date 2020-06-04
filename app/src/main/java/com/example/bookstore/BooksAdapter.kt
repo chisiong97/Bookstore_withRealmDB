@@ -2,13 +2,14 @@ package com.example.bookstore
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import io.realm.Realm
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
@@ -34,12 +35,21 @@ class BooksAdapter(val books: RealmResults<Book>, private val currentActivity: A
     {
         holder.book_title.text = books[position]?.book_title
         holder.author.text = books[position]?.author
-        holder.book_cover.setImageURI(Uri.parse(books[position]?.book_cover))
+
+        println("Current book cover: " + books[position]?.book_cover)
+        val options = BitmapFactory.Options().apply {
+            inJustDecodeBounds = true
+        }
+
+        Glide.with(holder.itemView.context).load(books[position]?.book_cover).into(holder.book_cover)
+
     }
 
     fun removeAt(position: Int) :Int
     {
         val currentDeleted = books[position]?.id
+        println("Current deleted ID: "+ currentDeleted )
+        println("Current deleted position: "+ position)
         helper.removeBook(realm, currentDeleted!!)
         notifyItemRemoved(position)
 
