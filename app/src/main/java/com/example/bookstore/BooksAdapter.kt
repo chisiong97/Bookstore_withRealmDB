@@ -51,7 +51,7 @@ class BooksAdapter(val books: RealmResults<Book>, private val currentActivity: A
         println("Current deleted ID: "+ currentDeleted )
         println("Current deleted position: "+ position)
         helper.removeBook(realm, currentDeleted!!)
-        notifyItemRemoved(position)
+        //notifyItemRemoved(position)
 
         return position
     }

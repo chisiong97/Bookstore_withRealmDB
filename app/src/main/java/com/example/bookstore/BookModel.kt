@@ -71,7 +71,6 @@ class BookModel : BookInterface
     {
         return try
         {
-
             realm.executeTransactionAsync(Realm.Transaction { bgRealm ->
                 // Find a dog to update.
                 val currentBook = bgRealm.where<Book>().equalTo("id", id).findFirst()!!

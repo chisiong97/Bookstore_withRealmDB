@@ -46,6 +46,7 @@ class BookList : AppCompatActivity()
             if(resultCode == Activity.RESULT_OK)
             {
                 viewAdapter.notifyDataSetChanged()
+                println("Adapter: " + results)
             }
             if (resultCode == Activity.RESULT_CANCELED)
             {
@@ -67,12 +68,11 @@ class BookList : AppCompatActivity()
         btnLogout.setOnClickListener()
         {
             //Delete all when logout
-            /*
+
             realm.beginTransaction()
             realm.deleteAll()
             realm.commitTransaction()
 
-             */
 
             finish()
         }
@@ -80,9 +80,6 @@ class BookList : AppCompatActivity()
 
     private fun initRecyclerUI()
     {
-        //Fetch data to array from db
-        //bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
-
         viewAdapter = BooksAdapter(results, this@BookList)
 
         //Fetch array to recyclerview
