@@ -45,10 +45,6 @@ class BookList : AppCompatActivity()
         {
             if(resultCode == Activity.RESULT_OK)
             {
-
-                //bookArray = results.toArray().toCollection(ArrayList()) as ArrayList<Book>
-
-
                 viewAdapter.notifyDataSetChanged()
             }
             if (resultCode == Activity.RESULT_CANCELED)
@@ -56,20 +52,6 @@ class BookList : AppCompatActivity()
                 //Write your code if there's no result
             }
         }
-        if (requestCode == 2)
-        {
-            if(resultCode == Activity.RESULT_OK)
-            {
-                viewAdapter.notifyDataSetChanged()
-
-            }
-            if (resultCode == Activity.RESULT_CANCELED)
-            {
-                //Write your code if there's no result
-            }
-
-        }
-
     }
 
     private fun initUI()
@@ -79,15 +61,18 @@ class BookList : AppCompatActivity()
         btnAddBook.setOnClickListener()
         {
             val intent = Intent(this, AddBook::class.java)
-            startActivityForResult(intent,2)
+            startActivityForResult(intent,1)
         }
 
         btnLogout.setOnClickListener()
         {
             //Delete all when logout
+            /*
             realm.beginTransaction()
             realm.deleteAll()
             realm.commitTransaction()
+
+             */
 
             finish()
         }

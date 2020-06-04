@@ -4,26 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/txtTitle"
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/bold"
         android:text="Hello There!"
         android:textColor="@color/colorWhite"
         android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@id/etUsername"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/etUsername"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="30dp"
 
         />
 
@@ -38,11 +37,10 @@
         android:ems="10"
         android:hint="@string/edit_username"
         android:textColorHint="@color/colorWhite"
-        app:layout_constraintBottom_toTopOf = "@id/etPassword"
+        app:layout_constraintBottom_toTopOf="@id/etPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTitle"
-        />
+        app:layout_constraintTop_toBottomOf="@id/txtTitle" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -56,26 +54,26 @@
         android:inputType="textPassword"
         android:textColorHint="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etUsername"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
-        />
+        app:layout_constraintTop_toBottomOf="@id/etUsername" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="100dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginEnd="300dp"
-        android:layout_marginTop="30dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="300dp"
         android:background="@drawable/button"
         android:text="Login"
         android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@id/etPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/etPassword" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

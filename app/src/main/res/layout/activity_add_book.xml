@@ -24,7 +24,6 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="0dp"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/etBookTitle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,52 +36,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginEnd="0dp"
         android:padding="10dp"
         android:text="@string/book_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/lblAuthor"
+        app:layout_constraintBaseline_toBaselineOf="@+id/etBookTitle"
         app:layout_constraintEnd_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/btnBookCover" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/lblAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
         android:padding="10dp"
         android:text="@string/author"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/etAuthor"
         app:layout_constraintEnd_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/lblBook_Title"
-        app:layout_constraintBottom_toTopOf="@id/lblDesc"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/lblDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
         android:padding="10dp"
         android:text="@string/book_description"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/etDesc"
         app:layout_constraintEnd_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@id/lblAuthor"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/etBookTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
@@ -96,8 +83,7 @@
         android:id="@+id/etAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="0dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
@@ -110,14 +96,12 @@
         android:id="@+id/etDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="0dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="10dp"
         android:ems="10"
         app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etAuthor"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/etAuthor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

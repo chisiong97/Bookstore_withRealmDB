@@ -78,12 +78,16 @@ class MainActivity : AppCompatActivity()
         btnLogin.setOnClickListener()
         {
             val intent = Intent(this, BookList::class.java)
+            startActivity(intent)
+            /*
             if(etUsername.text.toString().equals("SS") && etPassword.text.toString().equals("11111")) {
                 Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
             }
             else
                 Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show()
+
+             */
         }
     }
 }
